@@ -1,0 +1,106 @@
+* {
+  //border-radius: 3px;
+  //box-shadow: 0 0 0 3px #4d409b;
+  margin: 0;
+  padding: 0;
+}
+
+.phdd {
+  margin: 0;
+  padding: 0;
+}
+
+.buttonswrapping {
+  margin: 0;
+  padding: 0;
+  border-radius: 6px;
+  box-shadow: 0 0 0 3px #4d409b;
+}
+
+.wrappingGrid {
+  margin: 0;
+  padding: 0;
+}
+
+.Paper {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+  '.tiptap ProseMirror' won't work.
+  
+  Of course, if you check out the parsed HTML in the browser, 
+  the element that encompasses the content within this editor
+  has the class name "tiptap ProseMirror".
+  Although it seems that the name has whitespace in between two keywords,
+  I guess this isn't the case; you have to select this element
+  in CSS by the syntax like '.tiptap.ProseMirror'.
+*/
+.tiptap.ProseMirror {
+  border-radius: 5px;
+  box-shadow: 0 0 0 3px #4d409b;
+  // margin-block: 15px;      this makes the space between this content and the toolbar.
+  padding-inline: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* Basic editor styles */
+.tiptap {
+    > * + * {
+      margin-top: 0.75em;
+    }
+  
+    ul,
+    ol {
+      padding: 0 1rem;
+    }
+  
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      line-height: 1.1;
+    }
+  
+    code {
+      background-color: rgba(#616161, 0.1);
+      color: #616161;
+    }
+  
+    pre {
+      background: #0D0D0D;
+      color: #FFF;
+      font-family: 'JetBrainsMono', monospace;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+  
+      code {
+        color: inherit;
+        padding: 0;
+        background: none;
+        font-size: 0.8rem;
+      }
+    }
+  
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  
+    blockquote {
+      padding-left: 1rem;
+      border-left: 2px solid rgba(#0D0D0D, 0.1);
+    }
+  
+    hr {
+      border: none;
+      border-top: 2px solid rgba(#0D0D0D, 0.1);
+      margin: 2rem 0;
+    }
+}
+
+
