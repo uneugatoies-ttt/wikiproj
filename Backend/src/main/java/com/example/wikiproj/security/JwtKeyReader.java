@@ -1,7 +1,6 @@
 package com.example.wikiproj.security;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,12 +24,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class JwtKeyReader {
 	
-	public String readKey() throws IOException {
-		InputStream istream = getClass().getResourceAsStream("secret-key.txt");
-		byte[] keyBytes = istream.readAllBytes();
+	public static String readKey() throws IOException {
+		String filepath = ".\\src\\main\\java\\com\\example\\wikiproj\\security\\secret-key.txt";
+		Path p = Paths.get(filepath);
+		byte[] keyBytes = Files.readAllBytes(p);
 		return new String(keyBytes, "UTF-8");
-		
-		
 	}
 
 	// for key generation

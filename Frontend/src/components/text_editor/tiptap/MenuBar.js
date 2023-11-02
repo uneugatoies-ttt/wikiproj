@@ -22,12 +22,18 @@ import {
 } from '@mui/icons-material';
 import ParagraphHeadingDropdown from './ParagraphHeadingDropdown';
 
-const MenuBar = () => {
+const MenuBar = ({ flagToConvert }) => {
     const { editor } = useCurrentEditor();
   
     if (!editor) {
       return null;
     }
+
+    if (flagToConvert) {
+      console.log(editor.getJSON());
+    }
+
+
   
     return (
       <div className="buttonswrapping">

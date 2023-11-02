@@ -18,11 +18,9 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class TokenProvider {
-	private JwtKeyReader jwtKeyReader;
-	
 	
 	public String create(User userEntity) throws IOException {
-		final String secretKey = jwtKeyReader.readKey();
+		final String secretKey = JwtKeyReader.readKey();
 		
 		Date expiryDate = Date.from(
 			Instant.now().plus(1, ChronoUnit.DAYS)
@@ -38,7 +36,7 @@ public class TokenProvider {
 	}
 	
 	public String create(final Authentication authentication) throws IOException {
-		final String secretKey = jwtKeyReader.readKey();
+		final String secretKey = JwtKeyReader.readKey();
 		
 		ApplicationOAuth2User userPrincipal = (ApplicationOAuth2User) authentication.getPrincipal();
 		Date expiryDate = Date.from( 
@@ -58,7 +56,7 @@ public class TokenProvider {
 	
 	
 	public String validateAndGetUserId(String token) throws IOException {
-		final String secretKey = jwtKeyReader.readKey();
+		final String secretKey = JwtKeyReader.readKey();
 		
 		Claims claims = Jwts.parser()
 							.setSigningKey(secretKey)
