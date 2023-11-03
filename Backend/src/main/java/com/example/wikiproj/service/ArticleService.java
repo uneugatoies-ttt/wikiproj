@@ -90,6 +90,9 @@ public class ArticleService {
 			Wiki foundWiki = wikiRepository.findByWikiname(articleDTO.getWikiname());
 			if (foundWiki == null)
 				 throw new RuntimeException("Wiki Does Not Exist");
+			
+			System.out.println("\nWe've entered the 'insertArticle'\n");
+			
 			Article article = Article.builder()
 									.wiki(foundWiki)
 									.title(articleDTO.getTitle())
@@ -98,7 +101,14 @@ public class ArticleService {
 									.categories(listingStringToCategory(articleDTO.getCategories()))
 									.tags(listingStringToTag(articleDTO.getTags()))
 									.build();
+			
+			System.out.println("\nWe've done with building an Article entity\n");
+			
 			Article insertedArticle = articleRepository.save(article);
+			
+			System.out.println("\nWe've done with calling 'save(article)'\n");
+			
+			
 			newRevisionAndContent(insertedArticle);
 			return formingDTO(insertedArticle);
 		} catch (Exception e) {
@@ -196,6 +206,9 @@ public class ArticleService {
 	
 	private List<ArticleCategory> listingStringToCategory(List<String> cates) {
 		try {
+			if (cates.isEmpty())
+				return null;
+			
 			List<ArticleCategory> resList = new ArrayList<>();
 			for (String c : cates)
 				resList.add(articleCategoryRepository.findByCategoryName(c));
@@ -218,6 +231,9 @@ public class ArticleService {
 	
 	private List<ArticleTag> listingStringToTag(List<String> tags) {
 		try {
+			if (tags.isEmpty())
+				return null;
+			
 			List<ArticleTag> resList = new ArrayList<>();
 			for (String t : tags)
 				resList.add(articleTagRepository.findByTagName(t));

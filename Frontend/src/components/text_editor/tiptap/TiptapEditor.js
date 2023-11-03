@@ -1,8 +1,4 @@
 import React from 'react';
-import { getSchema } from '@tiptap/core';
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
 
 import Color from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
@@ -22,6 +18,8 @@ import MenuBar from './MenuBar';
 import './tiptapStyles.scss';
 
 
+
+
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   TextStyle.configure({ types: [ListItem.name] }),
@@ -38,7 +36,6 @@ const extensions = [
       className: 'asdf',
     },
   }),
-  
 ]
 
 
@@ -61,7 +58,7 @@ const schema = getSchema([
 
 */
 
-const TiptapEditor = ({ content, flagToConvert }) => {
+const TiptapEditor = (prop) => {
 
 
   const { editor } = useCurrentEditor();
@@ -83,9 +80,15 @@ const TiptapEditor = ({ content, flagToConvert }) => {
       }}
     >
       <EditorProvider
-        slotBefore={<MenuBar flagToConvert={flagToConvert} />}
+        slotBefore={
+          <MenuBar 
+            creationFlag={prop.creationFlag}
+            createNewArticle={prop.createNewArticle} 
+            justflag={prop.justflag}
+          />
+        }
         extensions={extensions}
-        content={content}
+        content={prop.content}
       >
 
       </EditorProvider>

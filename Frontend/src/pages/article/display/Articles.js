@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import EditPage from './EditPage';
-import { selectArticleByWikinameAndTitle } from '../../services/ApiService';
+import ArticlePage from './ArticlePage';
+import { selectArticleByWikinameAndTitle } from '../../../services/ApiService';
 
-function EditArticles() {
-    const path = window.location.search;
-    const params = new URLSearchParams(path);
-    const wikiname = params.get("wikiname");
-    const title = params.get("title");
+function Articles() {
+    console.log("asdfasdf");
+    const path = window.location.pathname;
+    const parts = path.split('/');
+
+    //const wikiname = parts[2];
+    //const title = parts[parts.length - 1];
+    const wikiname = 'wiki002';
+    const title = 'main-page';
 
     const [articleData, setArticleData] = useState(null);
 
@@ -22,7 +26,7 @@ function EditArticles() {
     if (articleData) {
         return (
             <div>
-                <EditPage data={articleData} wikiname={wikiname}/>
+                <ArticlePage data={articleData} wikiname={wikiname}/>
             </div>
         );
     } else {
@@ -30,4 +34,4 @@ function EditArticles() {
     }
 }
 
-export default EditArticles;
+export default Articles;

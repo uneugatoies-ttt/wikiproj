@@ -1,6 +1,19 @@
 import { API_BASE_URL } from '../config/api-config.js';
 
 
+/*
+    > Currently managing the API request/response is not very succinct,
+    and it's pretty hard to get the point from the code.
+    Should review and modify the code; especially eliminate all meaningless parts.
+
+    > Plus, overall learning of asynchronous programming should be continued;
+    this time the knowledge should be almost complete - along with the use
+    of 'async/await'.
+
+
+*/
+
+
 // using promises
 export function call(api, method, request) {
     let headers = new Headers({
@@ -188,6 +201,10 @@ export async function selectArticleByWikinameAndTitle(wikiname, title) {
 
 export function selectArticleByWikinameAndTitle(wikiname, title) {
     return call('/article/select-by-wt?wikiname=' + wikiname + '&title=' + title, 'GET', null);
+}
+
+export function insertArticle(articleDTO) {
+    return call('/article/insert', 'POST', articleDTO);
 }
 // ARTICLE RELATED ENDS
 

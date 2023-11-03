@@ -22,19 +22,31 @@ import {
 } from '@mui/icons-material';
 import ParagraphHeadingDropdown from './ParagraphHeadingDropdown';
 
-const MenuBar = ({ flagToConvert }) => {
+const MenuBar = (prop) => {
     const { editor } = useCurrentEditor();
   
     if (!editor) {
       return null;
     }
 
-    if (flagToConvert) {
+    if (prop.creationFlag) {
       console.log(editor.getJSON());
+      prop.createNewArticle(editor.getJSON());
     }
 
+    if (prop.justflag) {
+      console.log(editor.getJSON());
+      console.log(`it's working`);
+    }
 
-  
+    /*
+    if (prop.editFlag) {
+      console.log(editor.getJSON());
+      prop.editArticle();
+    }
+
+    */
+
     return (
       <div className="buttonswrapping">
       <Grid container className="wrappingGrid" justifyContent="center" alignItems="center">

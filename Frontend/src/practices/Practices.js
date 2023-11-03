@@ -18,7 +18,7 @@ import { Button } from '@mui/material';
   > So the following example is the resulting, converted JSON from the original
   text, which is just gibberish. I think I can store this JSON data
   in the database.
-  And if I ever have to manipulate the JSON data out of the domain of the editor,
+  And if I'm ever going to manipulate the JSON data out of the domain of the editor,
   I should make the data conform with this format.
 
   {
@@ -77,11 +77,11 @@ import { Button } from '@mui/material';
 */
 
 const Practices = () => {
-  const [flag, setFlag] = React.useState(false);
+  const [justflag, setFlag] = React.useState(false);
 
   React.useEffect(() => {
     setFlag(false);
-  }, [flag]);
+  }, [justflag]);
 
   const retrieveContent = () => {
     console.log("asdfasdf");
@@ -118,7 +118,7 @@ const Practices = () => {
         <div>
             <TiptapEditor 
               content={content} 
-              flagToConvert={flag}
+              justflag={justflag}
             />
             <Button
               onClick={() => retrieveContent()}

@@ -1,5 +1,7 @@
 package com.example.wikiproj.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,12 +67,20 @@ public class ArticleController {
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertArticle(@RequestBody ArticleDTO articleDTO) {
 		try {
-			if (
-				articleDTO.getContent() == null 		||
-				articleDTO.getAuthors() == null			||
-				articleDTO.getTitle() == null			||
-				articleDTO.getWikiname() == null
-			) throw new RuntimeException("Invalid Insertion Attempt");
+			if (articleDTO.getAuthors() == null) 
+				throw new RuntimeException("Invalid Insertion Attempt: author is null");
+			if (articleDTO.getTitle() == null) 
+				throw new RuntimeException("Invalid Insertion Attempt: title is null");
+			if (articleDTO.getWikiname() == null) 
+				throw new RuntimeException("Invalid Insertion Attempt: wikiname is null");
+			if (articleDTO.getContent() == null) 
+				throw new RuntimeException("Invalid Insertion Attempt: content is null");
+			
+			if (articleDTO.getCategories() == null)
+				articleDTO.setCategories(new ArrayList<>());
+			if (articleDTO.getTags() == null)
+				articleDTO.setTags(new ArrayList<>());
+			
 			ArticleDTO insertedArticleDTO = articleService.insertArticle(articleDTO);
 			return ResponseEntity.ok().body(insertedArticleDTO);
 		} catch (Exception e) {

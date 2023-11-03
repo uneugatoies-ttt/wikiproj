@@ -1,5 +1,5 @@
 import React from 'react';
-import TiptapEditor from '../../components/text_editor/tiptap/TiptapEditor';
+import TiptapEditor from '../../../components/text_editor/tiptap/TiptapEditor';
 
 const EditPage = ({ data, wikiname }) => {
     if (!data) {

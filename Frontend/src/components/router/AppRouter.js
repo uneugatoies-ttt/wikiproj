@@ -1,15 +1,21 @@
 import React from 'react';
 import '../../index.css';
 import App from '../../App';
+
 import SignUp from '../../pages/auth/SignUp';
 import Login from '../../pages/auth/Login';
 import SocialLogin from '../../pages/auth/SocialLogin';
+
 import CreateWikiDraft from '../../pages/wiki/CreateWikiDraft';
 import WikiDrafts from '../../pages/admin/WikiDrafts';
 import WikiMain from '../../pages/wiki/WikiMain';
-import Articles from '../../pages/article/Articles';
-import EditArticles from '../../pages/article/EditArticles';
+
+import Articles from '../../pages/article/display/Articles';
+import EditArticles from '../../pages/article/edit/EditArticles';
+import CreateArticle from '../../pages/article/create/CreateArticle';
+
 import Practices from '../../practices/Practices';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Typography, Box } from '@mui/material';
 
@@ -25,6 +31,15 @@ function Copyright() {
     )
 };
 
+/*
+    > ':dynamicPart' should be the wiki's name.
+
+
+
+*/
+
+
+
 function AppRouter() {
     return (
         <div>
@@ -39,9 +54,10 @@ function AppRouter() {
                     <Route path="/wiki" element={<WikiMain />} />
                     
                     {// problem with dynamic routing.
-                    /*<Route path="/wiki/:dynamicPart/article" element={<Articles />} />*/}
+                    /*<Route path="/:dynamicPart/article" element={<Articles />} />*/}
                     <Route path="/asdfasdf" element={<Articles />} />
                     <Route path="/edit" element={<EditArticles />} />
+                    <Route path="/create" element={<CreateArticle />} />
 
                     <Route path="/prac" element={<Practices />} />
 
