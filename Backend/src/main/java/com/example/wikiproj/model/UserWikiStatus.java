@@ -16,6 +16,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/*
+	> Users' status within wikis.
+	
+	> This entity was defined as an intermediary table
+	that would substitute the @ManyToMany annotations 
+	that were used within 'User' and 'Wiki', I think.
+
+
+
+*/
+
 @Entity
 @Getter
 @Setter

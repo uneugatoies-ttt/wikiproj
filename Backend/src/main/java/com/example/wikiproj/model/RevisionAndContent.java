@@ -6,8 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -40,21 +41,21 @@ public class RevisionAndContent extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "wiki_id")
 	private Wiki wiki;
-	
-	@ManyToMany
-	@ToString.Exclude
-	private List<User> author;
-	
+
 	private String title;
 	
 	private String content;
 	
-	@ManyToMany
-	@ToString.Exclude
-	private List<ArticleCategory> categories;
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	private User editor;
 	
-	@ManyToMany
+	@OneToMany(mappedBy = "revision_and_content")
 	@ToString.Exclude
-	private List<ArticleTag> tags;
+	private List<RACCategories> revisionAndContentCategories;
+	
+	@OneToMany(mappedBy = "revision_and_content")
+	@ToString.Exclude
+	private List<RACTags> revisionAndContentTags;
 
 }

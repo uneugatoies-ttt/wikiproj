@@ -1,7 +1,5 @@
 package com.example.wikiproj.dto;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +13,7 @@ public class RevisionDTO {
 	
 	private Long id;
 	private Long articleId;
-	private List<String> authors;
+	private String editor;
 	private String title;
 	private String content;
 

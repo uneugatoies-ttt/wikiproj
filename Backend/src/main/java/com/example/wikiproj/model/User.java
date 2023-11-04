@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -48,5 +49,12 @@ public class User extends BaseEntity {
 	private List<UserWikiStatus> userWikiStatus = new ArrayList<>();
 	
 	private String authProvider;
+	
+	@OneToOne(mappedBy = "user")
+	private Article article;
+	
+	@OneToOne(mappedBy = "user")
+	private RevisionAndContent revisionAndContent;
+
 
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /*
-	There are a few types for this class, and objects
+	There are a few types for this class; and objects of this
 	will be treated differently by their types.
 	
 	1) plainSection:

@@ -21,7 +21,7 @@ public class ArticleDTO {
 	
 	private String content;
 	
-	private List<String> authors;
+	private String lastEditor;
 	
 	private List<String> categories;
 	
