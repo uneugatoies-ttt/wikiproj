@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 
 */
 
-
+/*
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,3 +40,4 @@ public class ArticleSection {
 	private String source;
 
 }
+*/

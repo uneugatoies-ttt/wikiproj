@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,7 +66,7 @@ public class ArticleController {
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertArticle(@RequestBody ArticleDTO articleDTO) {
 		try {
-			if (articleDTO.getAuthors() == null) 
+			if (articleDTO.getLastEditor() == null) 
 				throw new RuntimeException("Invalid Insertion Attempt: author is null");
 			if (articleDTO.getTitle() == null) 
 				throw new RuntimeException("Invalid Insertion Attempt: title is null");
@@ -82,6 +81,9 @@ public class ArticleController {
 				articleDTO.setTags(new ArrayList<>());
 			
 			ArticleDTO insertedArticleDTO = articleService.insertArticle(articleDTO);
+			
+			System.out.println("\nWe've done with the service process\n");
+			
 			return ResponseEntity.ok().body(insertedArticleDTO);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
@@ -93,7 +95,7 @@ public class ArticleController {
 		try {
 			if (
 					articleDTO.getContent() == null 		||
-					articleDTO.getAuthors() == null			||
+					articleDTO.getLastEditor() == null			||
 					articleDTO.getTitle() == null			||
 					articleDTO.getWikiname() == null
 				) throw new RuntimeException("Invalid Update Attempt");

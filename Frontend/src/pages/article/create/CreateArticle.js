@@ -23,15 +23,16 @@ const CreateArticlePractice = () => {
         const parts = path.split('/');
         const wikiname = parts[1];
         const title = data.get("title");
+        const 
         */
 
         console.log(contents);
 
-        const wikiname = 'wiki002';
+        const wikiname = 'Wiki Example';
         const title = 'example article title';
         const contentString = JSON.stringify(contents);
-        const currUser = localStorage.getItem("USERNAME");
-        const authors = [currUser];
+        const lastEditor = localStorage.getItem("USERNAME");
+        const versionMemo = 'creating a new article example'
 
         console.log(contentString);
 
@@ -41,7 +42,8 @@ const CreateArticlePractice = () => {
             wikiname: wikiname,
             title: title,
             content: contentString,
-            authors: authors
+            lastEditor: lastEditor,
+            versionMemo: versionMemo,
         })
             .then((response) => {
                 console.log(response);

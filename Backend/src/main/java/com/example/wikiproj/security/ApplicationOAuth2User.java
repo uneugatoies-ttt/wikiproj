@@ -39,7 +39,6 @@ public class ApplicationOAuth2User implements OAuth2User {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
 	}
-	
 
 	@Override
 	public String getName() {

@@ -11,9 +11,6 @@ import { API_BASE_URL } from '../config/api-config.js';
     this time the knowledge should be almost complete - along with the use
     of 'async/await'.
 
-    > And the style of writing logic with callbacks should be more fluent;
-    although this doesn't have to be heavily focused, the inconvenience must be obliterated.
-
 */
 
 
@@ -60,10 +57,66 @@ export function call(api, method, request) {
 };
 
 
+/*
+
+// using async/await
+export async function callAsync(api, method, request) {
+    const headers = new Headers({
+        "Content-Type": "application/json",
+    });
+
+    const accessToken = localStorage.getItem("ACCESS_TOKEN");
+    if (accessToken && accessToken !== null) {
+        headers.append("Authorization", "Bearer " + accessToken);
+    }
+
+    const options = {
+        headers: headers,
+        url: API_BASE_URL + api,
+        method: method,
+    };
+
+    if (request) {
+        options.body = JSON.stringify(request);
+    }
+
+    try {
+        const response = await fetch(options.url, options);
+        if (response.status === 200) {
+            return await response.json();
+        } else if (response.status === 403) {
+            window.location.href = '/login';
+        } else {
+            const errorMessage = await response.text();
+            throw new Error(errorMessage);
+        }
+    } catch (error) {
+        console.log("error with using fetch()");
+        console.log(error);
+        throw error;
+    }
+}
+*/
+
+
+
+
+
 
 
 // USER AUTH/REGI RELATED BEGINS
 export function signin(userDTO) {
+    /*
+    return call("/auth/signin", "POST", userDTO)
+            .then((response) => {
+                if (response.token && response.username) {
+                    localStorage.setItem("ACCESS_TOKEN", response.token);
+                    localStorage.setItem("USERNAME", response.username);
+                    window.location.href = '/';
+                }
+            });
+            */
+
     const headers = new Headers({
         'Content-Type': 'application/json',
     });
@@ -72,22 +125,35 @@ export function signin(userDTO) {
         headers.append("Authorization", "Bearer " + accessToken);
     }    
 
-    const options = {
+    let options = {
         headers: headers,
-        method: 'POST',
-        body: JSON.stringify(userDTO),
+        url: API_BASE_URL + api,
+        method: method,
     }
 
-    const url = API_BASE_URL + '/auth/signin';
+    if (userDTO) {
+        options.body = JSON.stringify(userDTO);
+    }
 
-    return fetch(url, options)
+    return fetch(options.url, options)
         .then((response) => {
             if (response.status === 200) {
                 return response.json();
-            } else if (response.status === 404) {
-                return 'user not found';
+            } else if (response.status === 400) {
+                if (response.text() === 'user cannot be found') {
+                    
+                } else {
+
+                }
             }
+        })
+        .catch((error) => {
+            console.log("error with using fetch() in signin()");
+            console.log(error);
+            throw error;
         });
+
+    
 }
 
 // delete the existing token from a user's local storage 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,7 +32,7 @@ import lombok.ToString;
 public class RevisionAndContent extends BaseEntity {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@ManyToOne
@@ -57,5 +58,18 @@ public class RevisionAndContent extends BaseEntity {
 	@OneToMany(mappedBy = "revision_and_content")
 	@ToString.Exclude
 	private List<RACTags> revisionAndContentTags;
+	
+	private String versionMemo;
+	
+/*
+	> 'versionType' indicates whether this version is created, edited, or reverted.
+	
+	> I'm aware of that, in many similar cases, an enumeration is used 
+	to indicate one of the many possible options; but I don't realize
+	the urging needs to define a separate enumeration just for this.
+	If I actually realize the needs in the future, then I'll define the enum.
+	IWAAIL.
+*/
+	private String versionType;
 
 }

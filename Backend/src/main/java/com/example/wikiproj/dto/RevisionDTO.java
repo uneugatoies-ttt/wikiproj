@@ -12,9 +12,17 @@ import lombok.NoArgsConstructor;
 public class RevisionDTO {
 	
 	private Long id;
+	
 	private Long articleId;
-	private String editor;
+	
+	private String editorOrReverter;
+
 	private String title;
+
 	private String content;
+	
+	private String versionMemo;
+	
+	private String versionType;
 
 }

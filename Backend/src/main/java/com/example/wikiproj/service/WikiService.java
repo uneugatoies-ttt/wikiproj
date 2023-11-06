@@ -1,7 +1,5 @@
 package com.example.wikiproj.service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -10,19 +8,15 @@ import com.example.wikiproj.model.User;
 import com.example.wikiproj.model.UserWikiStatus;
 import com.example.wikiproj.model.Wiki;
 import com.example.wikiproj.model.WikiClass;
-import com.example.wikiproj.model.content.ArticleContent;
-import com.example.wikiproj.model.content.ArticleSection;
-import com.example.wikiproj.model.Article;
-import com.example.wikiproj.persistence.ArticleRepository;
 import com.example.wikiproj.persistence.UserRepository;
 import com.example.wikiproj.persistence.UserWikiStatusRepository;
 import com.example.wikiproj.persistence.WikiClassRepository;
 import com.example.wikiproj.persistence.WikiRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-/*
-	- Originally, I've been using try-catch blocks to handle exceptions within 'createWiki()'
+import lombok.AllArgsConstructor;
+
+/*	NOTE
+	-> Originally, I've been using try-catch blocks to handle exceptions within 'createWiki()'
 	and 'createMainArticle()', but I happened to encounter a strange error message that says
 	"Unhandled exception type JsonProcessingException", even though in the catch blocks
 	I was using Exception - the ancestor of all exception classes of Java.
@@ -30,31 +24,41 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 	the method signature.
 	
 	I don't particularly understand this problem; IWAAIL.
+	
+	
+	
+*/
+
+/*	TODO
+	-> I have to finish the process of automatically inserting the main article
+	when a new wiki is created.
+
+
 */
 
 
 @Service
+@AllArgsConstructor
 public class WikiService {
 	
 	private WikiRepository wikiRepository;
 	private WikiClassRepository wikiClassRepository;
 	private UserWikiStatusRepository userWikiStatusRepository;
 	private UserRepository userRepository;
-	private ArticleRepository articleRepository;
 	
+	/*
 	public WikiService(
 			WikiRepository wikiRepository,
 			WikiClassRepository wikiClassRepository,
 			UserWikiStatusRepository userWikiStatusRepository,
-			UserRepository userRepository,
-			ArticleRepository articleRepository
+			UserRepository userRepository
 	) {
 		this.wikiRepository = wikiRepository;
 		this.wikiClassRepository = wikiClassRepository;
 		this.userWikiStatusRepository = userWikiStatusRepository;
 		this.userRepository = userRepository;
-		this.articleRepository = articleRepository;
 	}
+	*/
 
 	public WikiDTO createWiki(WikiDTO wikiDTO, String proponent) throws Exception {
 		WikiClass wikiClass =  wikiClassRepository.findByClassName(wikiDTO.getWikiClassName());
@@ -80,7 +84,7 @@ public class WikiService {
 							.build();
 		
 		setWikiProponent(proponent, createdWiki);
-		createMainArticle(createdWiki);
+		//createMainArticle(createdWiki);
 		
 		return resultDTO;
 	}
@@ -99,6 +103,7 @@ public class WikiService {
 		}
 	}
 	
+	/*
 	public void createMainArticle(Wiki createdWiki) throws JsonProcessingException, Exception {
 		ArticleSection aboutThisWiki = ArticleSection.builder()
 					.type("plainSection")
@@ -133,17 +138,12 @@ public class WikiService {
 		
 		System.out.println("Length of content: " + content.length() + "\n\n");
 		System.out.println("Content itself: \n" + content);
-		
+
+	
 		Article mainArticle = Article.builder()
-								.wiki(createdWiki)
-								.title("Main Page")
-								.content(content)
-								.authors(null)
-								.categories(null)
-								.tags(null)
-								.build();
+
 		
 		articleRepository.save(mainArticle);
-	}
+	}*/
 
 }

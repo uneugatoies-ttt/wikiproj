@@ -26,5 +26,7 @@ public class ArticleDTO {
 	private List<String> categories;
 	
 	private List<String> tags;
+	
+	private String versionMemo;
 
 }

@@ -15,6 +15,12 @@ import com.example.wikiproj.model.User;
 import com.example.wikiproj.security.TokenProvider;
 import com.example.wikiproj.service.UserService;
 
+/*
+	-> When the authentication is failed due to the corresponding user's absence in the database,
+	I should handle this case without throwing an error; some kind of message that the frontend
+	can parse so that it can redirect the user to the sign-up page.
+	
+*/
 @RestController
 @RequestMapping("/auth")
 public class UserController {
@@ -43,7 +49,6 @@ public class UserController {
 		
 		if (user != null) {
 			final String token = tokenProvider.create(user);
-			
 			final UserDTO responseUserDTO = UserDTO
 											.builder()
 											.username(user.getUsername())
@@ -53,12 +58,7 @@ public class UserController {
 			
 			return ResponseEntity.ok().body(responseUserDTO);
 		} else {
-			ResponseDTO responseDTO = ResponseDTO
-										.builder()
-										.error("Login Failed")
-										.build();
-			
-			return ResponseEntity.badRequest().body(responseDTO);
+			return ResponseEntity.notFound().build();
 		}
 	}
 	
@@ -66,7 +66,7 @@ public class UserController {
 	public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
 		try {
 			if (userDTO == null || userDTO.getPassword() == null) {
-				throw new RuntimeException("Invalid Password");
+				throw new RuntimeException("invalid password");
 			}
 			
 			User user = User.builder()
@@ -84,11 +84,7 @@ public class UserController {
 			
 			return ResponseEntity.ok().body(responseUserDTO);
 		} catch (Exception e) {
-			ResponseDTO responseDTO = ResponseDTO.builder()
-												.error(e.getMessage())
-												.build();
-			
-			return ResponseEntity.badRequest().body(responseDTO);
+			return ResponseEntity.badRequest().body(e.getMessage());
 			
 		}
 	}

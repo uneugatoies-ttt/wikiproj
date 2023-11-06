@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -50,11 +49,14 @@ public class User extends BaseEntity {
 	
 	private String authProvider;
 	
-	@OneToOne(mappedBy = "user")
-	private Article article;
+	// I'm going to keep the following two fields just in case you have to 
+	// retrieve all articles that a user has been involved.
+	@OneToMany(mappedBy = "lastEditor")
+	@ToString.Exclude
+	private List<Article> articlesWrittenBy;
 	
-	@OneToOne(mappedBy = "user")
-	private RevisionAndContent revisionAndContent;
-
+	@OneToMany(mappedBy = "editor")
+	@ToString.Exclude
+	private List<RevisionAndContent> racsWrittenBy;
 
 }

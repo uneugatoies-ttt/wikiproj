@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/*
 //@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 @Builder
 @NoArgsConstructor
@@ -28,3 +29,4 @@ public class ArticleContent {
 	private List<ArticleSection> sections;
 
 }
+*/

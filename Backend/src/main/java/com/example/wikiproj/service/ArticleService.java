@@ -9,22 +9,15 @@ import org.springframework.stereotype.Service;
 import com.example.wikiproj.dto.ArticleDTO;
 import com.example.wikiproj.dto.RevisionDTO;
 import com.example.wikiproj.model.Article;
-import com.example.wikiproj.model.ArticleAuthors;
 import com.example.wikiproj.model.ArticleCategories;
 import com.example.wikiproj.model.ArticleTags;
-import com.example.wikiproj.model.Category;
-import com.example.wikiproj.model.RACAuthors;
 import com.example.wikiproj.model.RACCategories;
 import com.example.wikiproj.model.RACTags;
-import com.example.wikiproj.model.Tag;
 import com.example.wikiproj.model.RevisionAndContent;
-import com.example.wikiproj.model.User;
 import com.example.wikiproj.model.Wiki;
 import com.example.wikiproj.persistence.CategoryRepository;
-import com.example.wikiproj.persistence.RACAuthorsRepository;
 import com.example.wikiproj.persistence.RACCategoriesRepository;
 import com.example.wikiproj.persistence.RACTagsRepository;
-import com.example.wikiproj.persistence.ArticleAuthorsRepository;
 import com.example.wikiproj.persistence.ArticleCategoriesRepository;
 import com.example.wikiproj.persistence.ArticleRepository;
 import com.example.wikiproj.persistence.ArticleTagsRepository;
@@ -33,27 +26,36 @@ import com.example.wikiproj.persistence.RevisionAndContentRepository;
 import com.example.wikiproj.persistence.UserRepository;
 import com.example.wikiproj.persistence.WikiRepository;
 
-/*
-	> I just don't know about this code. Is this the best 
+import lombok.AllArgsConstructor;
+
+/*	NOTE
+	-> I just don't know about this code. Is this the best 
 	that I can do to manage things? Excessively verbose and cumbersome;
 	which are exactly the states that I should avoid when writing code.
 	
 	But I'm not sure just yet. Maybe there is no way other than writing
 	hundreds of long lines. IWAAIL.
 	
-	
-	> Is there a way to use the stream API to convert lists and entities 
-	that are used within this class into something demanded?
+	-> Is there a way to use the stream API to convert lists and entities 
+	that are used within this class into something demanded now?
 	Maybe, if the relationship and other stuff were less convoluted then 
 	we could have done something like that; but the entities are not 
 	that simple.
 	
-	> 
+	-> What about just using @AllArgsConstructor instead of writing every 
+	required dependency?
 
+*/
+
+/*	TODO
+
+ 
+ 
 */
 
 
 @Service
+@AllArgsConstructor
 public class ArticleService {
 	
 	private ArticleRepository articleRepository;
@@ -67,33 +69,9 @@ public class ArticleService {
 	private RACCategoriesRepository racCategoriesRepository;
 	private RACTagsRepository racTagsRepository;
 	
-	public ArticleService(
-			ArticleRepository articleRepository,
-			RevisionAndContentRepository revisionAndContentRepository,
-			WikiRepository wikiRepository,
-			UserRepository userRepository,
-			CategoryRepository categoryRepository,
-			TagRepository tagRepository,
-			ArticleCategoriesRepository articleCategoriesRepository,
-			ArticleTagsRepository articleTagsRepository,
-			RACCategoriesRepository racCategoriesRepository,
-			RACTagsRepository racTagsRepository
-	) {
-		this.articleRepository = articleRepository;
-		this.revisionAndContentRepository = revisionAndContentRepository;
-		this.wikiRepository = wikiRepository;
-		this.userRepository = userRepository;
-		this.categoryRepository = categoryRepository;
-		this.tagRepository = tagRepository;
-		this.articleCategoriesRepository = articleCategoriesRepository;
-		this.articleTagsRepository = articleTagsRepository;
-		this.racCategoriesRepository = racCategoriesRepository;
-		this.racTagsRepository = racTagsRepository;
-	}
-
 	public ArticleDTO selectArticle(Long articleId) {
 		Article foundArticle = articleRepository.findById(articleId).get();
-		return formingDTO(foundArticle);
+		return formingArticleDTO(foundArticle);
 	}
 	
 	public ArticleDTO selectArticleByWikinameAndTitle(String wikiname, String title) {
@@ -123,7 +101,7 @@ public class ArticleService {
 			if (foundArticle == null)
 				throw new RuntimeException("Article Fetching Failed");
 			else 
-				return formingDTO(foundArticle);
+				return formingArticleDTO(foundArticle);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -143,14 +121,23 @@ public class ArticleService {
 									.lastEditor(userRepository.findByUsername(articleDTO.getLastEditor()))
 									.content(articleDTO.getContent())
 									.build();
+			
+			System.out.println("\nWe've done with forming Article\n");
 
 			Article insertedArticle = articleRepository.save(article);
+			
+			System.out.println("\nWe've done with the initial saving of the article\n");
 
 			// many to many handling of authors/cates/tags
 			insertedArticle = settingAuthorsCategoriesTagsAfterInsertion(insertedArticle, articleDTO);
 			
-			newRevisionAndContent(insertedArticle);
-			return formingDTO(insertedArticle);
+			System.out.println("\nWe've done with the second saving of the article\n");
+			
+			newRevisionAndContent(insertedArticle, articleDTO.getVersionMemo(), "inserted");
+			
+			System.out.println("\nWe've done with the revision and content\n");
+			
+			return formingArticleDTO(insertedArticle);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -186,8 +173,8 @@ public class ArticleService {
 			
 			Article updatedArticle = articleRepository.save(article);
 			
-			newRevisionAndContent(updatedArticle);
-			return formingDTO(updatedArticle);
+			newRevisionAndContent(updatedArticle, articleDTO.getVersionMemo(), "updated");
+			return formingArticleDTO(updatedArticle);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -205,11 +192,8 @@ public class ArticleService {
 	}
 	
 	
-	
-	
-	
 	// revision and content handling
-	private void newRevisionAndContent(Article article) {
+	private void newRevisionAndContent(Article article, String versionMemo, String versionType) {
 		try {
 			RevisionAndContent rac = RevisionAndContent.builder()
 										.article(article)
@@ -217,12 +201,23 @@ public class ArticleService {
 										.title(article.getTitle())
 										.editor(article.getLastEditor())
 										.content(article.getContent())
+										.versionMemo(versionMemo)
+										.versionType(versionType)
 										.build();
 			
+			System.out.println("\nWe've done with forming RAC\n");
+			
 			RevisionAndContent insertedRac = revisionAndContentRepository.save(rac);
+			
+			System.out.println("\nWe've done with the initial saving of the RAC\n");
 
 			insertedRac.setRevisionAndContentCategories(listingRACCategories(insertedRac, article.getArticleCategories()));
+			
+			System.out.println("\nWe've done with listing of RAC categories\n");
+			
 			insertedRac.setRevisionAndContentTags(listingRACTags(insertedRac, article.getArticleTags()));
+			
+			System.out.println("\nWe've done with listing of RAC tags\n");
 			
 			revisionAndContentRepository.save(insertedRac);
 		} catch (Exception e) {
@@ -230,36 +225,53 @@ public class ArticleService {
 		}
 	}
 	
-	/*
-		> I ought to find a way to record whether the current version of an article
-		is done by reverting or not; but that should be suspended until the overall
-		development process is complete.
-		IWAAIL.
-	
-	*/
 
 	public ArticleDTO revertArticle(RevisionDTO revisionDTO) {
 		try {
+			Article existingArticle = articleRepository.findById(revisionDTO.getArticleId()).get();
+
+			articleCategoriesRepository.deleteAllByArticle(existingArticle);
+			articleTagsRepository.deleteAllByArticle(existingArticle);
+			
 			RevisionAndContent rac = revisionAndContentRepository.findById(revisionDTO.getId()).get();
 			
-			List<ArticleCategories> 
+			List<ArticleCategories> revertCates = new ArrayList<>();
+			List<ArticleTags> revertTags = new ArrayList<>();
 			
+			for (RACCategories racc : rac.getRevisionAndContentCategories()) {
+				ArticleCategories ac = ArticleCategories.builder()
+												.article(existingArticle)
+												.category(racc.getCategory())
+												.build();
+				
+				articleCategoriesRepository.save(ac);
+				
+				revertCates.add(ac);
+			}
+			
+			for (RACTags ract : rac.getRevisionAndContentTags()) {
+				ArticleTags at = ArticleTags.builder()
+											.article(existingArticle)
+											.tag(ract.getTag())
+											.build();
+				
+				articleTagsRepository.save(at);
+				
+				revertTags.add(at);
+			}
 			
 			// Is this way of handling ID OK?
-			Article article = Article.builder()
-					.articleId(rac.getArticle().getArticleId())
-					.wiki(rac.getWiki())
-					.title(rac.getTitle())
-					.content(rac.getContent())
-					.lastEditor()
-					.categories(rac.getCategories())
-					.tags(rac.getTags())
-					.build();
+			existingArticle.setTitle(rac.getTitle());
+			existingArticle.setContent(rac.getContent());
+			existingArticle.setLastEditor(userRepository.findByUsername(revisionDTO.getEditorOrReverter()));
+			existingArticle.setArticleCategories(revertCates);
+			existingArticle.setArticleTags(revertTags);
 			
-			newRevisionAndContent(article);
+			Article revertedArticle = articleRepository.save(existingArticle);
+
+			newRevisionAndContent(revertedArticle, revisionDTO.getVersionMemo(), "reverted");
 			
-			Article revertedArticle = articleRepository.save(article);
-			return formingDTO(revertedArticle);
+			return formingArticleDTO(revertedArticle);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -267,18 +279,19 @@ public class ArticleService {
 
 	public List<RevisionDTO> revisionHistory(Long articleId) {
 		try {
-			List<Long> list = new ArrayList<>();
-			list.add(articleId);
-			List<RevisionAndContent> res = revisionAndContentRepository.findAllById(list);
+			Article foundArticle = articleRepository.findById(articleId).get();
+
+			List<RevisionAndContent> racList = revisionAndContentRepository.findAllByArticle(foundArticle);
 			List<RevisionDTO> resDTO = new ArrayList<>();
 			
-			for (RevisionAndContent rac : res) {
+			for (RevisionAndContent rac : racList) {
 				RevisionDTO dto = RevisionDTO.builder()
 									.id(rac.getId())
-									.articleId(rac.getArticle().getArticleId())
-									.authors(listingUserToString(rac.getAuthor()))
+									.articleId(articleId)
+									.editorOrReverter(rac.getEditor().getUsername())
 									.title(rac.getTitle())
 									.content(rac.getContent())
+									.versionMemo(rac.getVersionMemo())
 									.build();
 				resDTO.add(dto);	
 			}
@@ -294,14 +307,14 @@ public class ArticleService {
 	
 	
 	// ArticleDTO from the Article entity
-	private ArticleDTO formingDTO(Article article) {
+	private ArticleDTO formingArticleDTO(Article article) {
 		try {
 			ArticleDTO articleDTO = ArticleDTO.builder()
 					.articleId(article.getArticleId())
 					.wikiname(article.getWiki().getWikiname())
 					.title(article.getTitle())
 					.content(article.getContent())
-					.authors(listingStringAuthors(article))
+					.lastEditor(article.getLastEditor().getUsername())
 					.categories(listingStringCategories(article))
 					.tags(listingStringTags(article))
 					.build();
@@ -314,13 +327,10 @@ public class ArticleService {
 	
 	
 	
-	
-	
 	// listing methods
-	
 	private List<ArticleCategories> listingArticleCategories(Article ent, ArticleDTO dto) {
 		try {
-			if (dto.getCategories().isEmpty())
+			if (dto.getCategories() == null || dto.getCategories().isEmpty())
 				return null;
 			
 			List<ArticleCategories> resList = new ArrayList<>();
@@ -339,7 +349,7 @@ public class ArticleService {
 	
 	private List<ArticleTags> listingArticleTags(Article ent, ArticleDTO dto) {
 		try {
-			if (dto.getTags().isEmpty())
+			if (dto.getTags() == null || dto.getTags().isEmpty())
 				return null;
 			
 			List<ArticleTags> resList = new ArrayList<>();
@@ -356,20 +366,12 @@ public class ArticleService {
 		}
 	}
 	
-	private List<String> listingStringAuthors(Article ent) {
-		try {
-			List<String> resList = new ArrayList<>();
-			for (ArticleAuthors aa : ent.getArticleAuthors()) {
-				resList.add(aa.getUser().getUsername());
-			}
-			return resList;
-		} catch (Exception e) {
-			throw e;
-		}
-	}
 	
 	private List<String> listingStringCategories(Article ent) {
 		try {
+			if (ent.getArticleCategories() == null || ent.getArticleCategories().isEmpty())
+				return null;
+			
 			List<String> resList = new ArrayList<>();
 			for (ArticleCategories ac : ent.getArticleCategories()) {
 				resList.add(ac.getCategory().getCategoryName());
@@ -382,6 +384,9 @@ public class ArticleService {
 	
 	private List<String> listingStringTags(Article ent) {
 		try {
+			if (ent.getArticleTags() == null || ent.getArticleTags().isEmpty())
+				return null;
+			
 			List<String> resList = new ArrayList<>();
 			for (ArticleTags at : ent.getArticleTags()) {
 				resList.add(at.getTag().getTagName());
@@ -394,7 +399,11 @@ public class ArticleService {
 	
 	private List<RACCategories> listingRACCategories(RevisionAndContent rac, List<ArticleCategories> cates) {
 		try {
+			if (cates == null || cates.isEmpty())
+				return null;
+			
 			List<RACCategories> resList = new ArrayList<>();
+			
 			for (ArticleCategories ac : cates) {
 				RACCategories racCate = RACCategories.builder()
 										.revision_and_content(rac)
@@ -412,6 +421,9 @@ public class ArticleService {
 
 	private List<RACTags> listingRACTags(RevisionAndContent rac, List<ArticleTags> tags) {
 		try {
+			if (tags == null || tags.isEmpty())
+				return null;
+			
 			List<RACTags> resList = new ArrayList<>();
 			for (ArticleTags at : tags) {
 				RACTags racTags = RACTags.builder()

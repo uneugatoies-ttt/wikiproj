@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /*
 	- This class is for checking whether the returned user information by GitHub
-	is present in database or not. And if it isn't, then the new account for
+	is present in the database or not. And if it isn't, then the new account for
 	the user must be made.
 */
 
