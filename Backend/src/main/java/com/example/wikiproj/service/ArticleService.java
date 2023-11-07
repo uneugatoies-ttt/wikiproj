@@ -49,10 +49,7 @@ import lombok.AllArgsConstructor;
 
 /*	TODO
 
- 
- 
 */
-
 
 @Service
 @AllArgsConstructor
@@ -79,14 +76,7 @@ public class ArticleService {
 			String normalizedWikiname = wikiname.trim().toLowerCase().replace('-', ' ');
 			String normalizedTitle = title.trim().toLowerCase().replace('-', ' ');
 			
-			System.out.println("we've normalized wikiname and title");
-			System.out.println("norWikiname: " + normalizedWikiname);
-			System.out.println("norTitle: " + normalizedTitle + "\n\n");
-			
 			Wiki foundWiki = wikiRepository.findByWikiname(normalizedWikiname);
-			
-			System.out.println("we've found the wiki by wikiname");
-			System.out.println("wiki: " + foundWiki.getWikiname() + "\n\n");
 			
 			Article foundArticle = 
 				articleRepository
@@ -94,9 +84,6 @@ public class ArticleService {
 							foundWiki,
 							normalizedTitle
 					);
-			
-			System.out.println("we've found the article");
-			System.out.println("foundArticle: " + foundArticle.getContent() + "\n\n");
 		
 			if (foundArticle == null)
 				throw new RuntimeException("Article Fetching Failed");
@@ -113,8 +100,6 @@ public class ArticleService {
 			if (foundWiki == null)
 				 throw new RuntimeException("Wiki Does Not Exist");
 			
-			System.out.println("\nWe've entered the 'insertArticle'\n");
-			
 			Article article = Article.builder()
 									.wiki(foundWiki)
 									.title(articleDTO.getTitle())
@@ -122,20 +107,12 @@ public class ArticleService {
 									.content(articleDTO.getContent())
 									.build();
 			
-			System.out.println("\nWe've done with forming Article\n");
-
 			Article insertedArticle = articleRepository.save(article);
 			
-			System.out.println("\nWe've done with the initial saving of the article\n");
-
 			// many to many handling of authors/cates/tags
 			insertedArticle = settingAuthorsCategoriesTagsAfterInsertion(insertedArticle, articleDTO);
 			
-			System.out.println("\nWe've done with the second saving of the article\n");
-			
 			newRevisionAndContent(insertedArticle, articleDTO.getVersionMemo(), "inserted");
-			
-			System.out.println("\nWe've done with the revision and content\n");
 			
 			return formingArticleDTO(insertedArticle);
 		} catch (Exception e) {
@@ -205,19 +182,11 @@ public class ArticleService {
 										.versionType(versionType)
 										.build();
 			
-			System.out.println("\nWe've done with forming RAC\n");
-			
 			RevisionAndContent insertedRac = revisionAndContentRepository.save(rac);
 			
-			System.out.println("\nWe've done with the initial saving of the RAC\n");
-
 			insertedRac.setRevisionAndContentCategories(listingRACCategories(insertedRac, article.getArticleCategories()));
 			
-			System.out.println("\nWe've done with listing of RAC categories\n");
-			
 			insertedRac.setRevisionAndContentTags(listingRACTags(insertedRac, article.getArticleTags()));
-			
-			System.out.println("\nWe've done with listing of RAC tags\n");
 			
 			revisionAndContentRepository.save(insertedRac);
 		} catch (Exception e) {

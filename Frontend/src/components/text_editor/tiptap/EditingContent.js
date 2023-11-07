@@ -1,3 +1,9 @@
+/* NOTE:
+  -> What was this component for? This sounds very stupid, but I couldn't remember...
+
+
+*/
+
 /*
 import React from 'react';
 import { useCurrentEditor, useContent, EditorContent } from '@tiptap/react';

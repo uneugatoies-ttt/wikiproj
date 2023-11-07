@@ -41,21 +41,10 @@ public class ArticleController {
 		try {
 			if (wikiname == null || title == null)
 				throw new RuntimeException("Wikiname or Title Is NULL");
-			
-			System.out.println("wikiname is: " + wikiname);
-			System.out.println("title is: " + title + "\n\n");
 
-			
 			ArticleDTO foundArticleDTO = 
 				articleService
 					.selectArticleByWikinameAndTitle(wikiname, title);
-			
-			
-			
-			System.out.println("we got the 'foundArticleDTO'\n\n");
-			
-			System.out.println("title: " + foundArticleDTO.getTitle());
-			System.out.println("content: " + foundArticleDTO.getContent() + "\n\n");
 			
 			return ResponseEntity.ok().body(foundArticleDTO);
 		} catch (Exception e) {
@@ -81,8 +70,6 @@ public class ArticleController {
 				articleDTO.setTags(new ArrayList<>());
 			
 			ArticleDTO insertedArticleDTO = articleService.insertArticle(articleDTO);
-			
-			System.out.println("\nWe've done with the service process\n");
 			
 			return ResponseEntity.ok().body(insertedArticleDTO);
 		} catch (Exception e) {

@@ -6,13 +6,10 @@ import SignUp from '../../pages/auth/SignUp';
 import Login from '../../pages/auth/Login';
 import SocialLogin from '../../pages/auth/SocialLogin';
 
-import CreateWikiDraft from '../../pages/wiki/CreateWikiDraft';
-import WikiDrafts from '../../pages/admin/WikiDrafts';
-import WikiMain from '../../pages/wiki/WikiMain';
-
-import Articles from '../../pages/article/display/Articles';
-import EditArticles from '../../pages/article/edit/EditArticles';
-import CreateArticle from '../../pages/article/create/CreateArticle';
+import AdminTopmost from '../../pages/admin/AdminTopmost';
+import ArticleTopmost from '../../pages/article/ArticleTopmost';
+import WikiTopmost from '../../pages/article/WikiTopmost';
+import WikidraftTopmost from '../../pages/wiki/WikidraftTopmost';
 
 import ArticleParsingPrac from '../../practices/ArticleParsingPrac';
 
@@ -32,34 +29,52 @@ function Copyright() {
 };
 
 /*
-    > ':dynamicPart' should be the wiki's name.
+    -> About dynamic routing: https://reactrouter.com/en/main/route/route
+
+    -> I would continue building the app with routing that works as follows:
+        -> One <Route> is only assigned to the top-most component of a group of components,
+        which are encompassed by their certain functionalities such as handling articles.
+
+        -> In the routed top-most component, further rendering change will be beckoned 
+        by a URL's parameter.
+        For example, when editing is being done on an article, the user should be redirected to 
+        the same URL but with the parameter like '?action=edit'
+        And similar behaviors should be implemented to those actions other than editing.
 */
-
-
 
 function AppRouter() {
     return (
         <div>
             <BrowserRouter>
                 <Routes>
+
                     <Route path="/" element={<App />} />
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/sociallogin" element={<SocialLogin />} />
+                    {/*These should be consolidated into <AuthTopmost> in the later time*/}
 
-                    <Route path="/create-draft" element={<CreateWikiDraft />} />
-                    <Route path="/adm/wiki-drafts" element={<WikiDrafts />} />
+                    <Route
+                        path="/wikidraft"
+                        element={<WikidraftTopmost />}
+                    />
                     
-                    <Route path="/wiki" element={<WikiMain />} />
+                    <Route
+                        path="/adm"
+                        element={<AdminTopmost />}
+                    />
+
+                    <Route
+                        path="/wiki/:wikiname"
+                        element={<WikiTopmost /> }
+                    />
                     
-                    {// problem with dynamic routing.
-                    /*<Route path="/:dynamicPart" element={<Articles />} />*/}
-                    <Route path="/edit" element={<EditArticles />} />
-                    <Route path="/create" element={<CreateArticle />} />
-                    <Route path="/asdfasdf" element={<Articles />} />
+                    <Route 
+                        path="/wiki/:wikiname/:arti"
+                        element={<ArticleTopmost />}
+                    />
 
                     <Route path="/prac" element={<ArticleParsingPrac />} />
-
 
                 </Routes>
             </BrowserRouter>

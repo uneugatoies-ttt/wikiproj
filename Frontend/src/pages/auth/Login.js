@@ -36,25 +36,7 @@ function Login() {
     const handleSocialLogin = (provider) => {
         socialLogin(provider);
     }
-
-    /*
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.target);
-        const username = data.get("username");
-        const password = data.get("password");
-
-        signin({ username: username, password: password });
-    }
-
-    const handleSocialLogin = (provider, event) => {
-        event.preventDefault();
-        const data = new FormData(event.target);
-        const username = data.get("username");
-        socialLogin(provider, username);
-    }
-    */
-
+    
     return (
         <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
             <Grid container spacing={2}>

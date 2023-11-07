@@ -23,6 +23,9 @@ const ArticlePage = ({ data, wikiname }) => {
 
     if (!content.sections || !Array.isArray(content.sections)) {
         console.log("problem with data.content.sections");
+        console.log(data);
+
+
         return null;
     }
 

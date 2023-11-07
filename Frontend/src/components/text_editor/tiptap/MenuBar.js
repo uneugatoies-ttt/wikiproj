@@ -29,6 +29,11 @@ const MenuBar = (prop) => {
       return null;
     }
 
+    if (prop.intoHtml) {
+      editor.setContent(prop.intoHtml);
+      return editor.getHTML();
+    }
+
     if (prop.creationFlag) {
       console.log(editor.getJSON());
       prop.createNewArticle(editor.getJSON());
