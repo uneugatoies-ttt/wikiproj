@@ -3,6 +3,12 @@ import TiptapEditor from '../../../components/text_editor/tiptap/TiptapEditor';
 import { Button } from '@mui/material';
 import { insertArticle } from '../../../services/ApiService';
 
+/*  NOTE/TODO
+    -> Currently I'm giving a function as one of props and 
+    making the lower component call it when it is needed,
+    but I'm not sure whether this is a reasonable way to do this or not. 
+
+*/
 
 const CreateArticlePractice = () => {
     const [creationFlag, setFlag] = React.useState(false);
@@ -17,15 +23,6 @@ const CreateArticlePractice = () => {
     }
 
     const createNewArticle = (contents) => {
-        /* 
-        const data = new FormData(event.target);
-        const path = window.location.pathname;
-        const parts = path.split('/');
-        const wikiname = parts[1];
-        const title = data.get("title");
-        const 
-        */
-
         console.log(contents);
 
         const wikiname = 'Wiki Example';

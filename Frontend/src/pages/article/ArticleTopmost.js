@@ -1,47 +1,57 @@
 import React from 'react';
 import Articles from './display/Articles';
-import CreateArticles from './create/CreateArticle';
 import EditArticles from './edit/EditArticles';
+import { selectArticleByWikinameAndTitle } from '../../services/ApiService';
+import { useParams } from 'react-router-dom';
+
+/* NOTE/TODO
+    -> In this topmost component, the 'CreateArticle' will not be managed;
+    for it doesn't need to fetch an existing article, unlike the cases of 
+    EditArticles and Articles.
+*/
+
 
 function ArticleTopmost() {
-    const [action, setAction] = React.useState(null);
+    const [action, setAction] = React.useState('display');
+    const [articleData, setArticleData] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
 
-    let search = window.location.search;
-    let params = new URLSearchParams(search);
+    const { wikiname, arti } = useParams();
 
     React.useEffect(() => {
-        if (!params.get('action')) {
-            setAction('display');
-        } else {
-            setAction(params.get('action'));
+        const search = window.location.search;
+        const urlParams = new URLSearchParams(search);
+        const actionParam = urlParams.get('action');
+        if (actionParam) {
+            setAction(actionParam);
         }
-    }, [])
+
+        selectArticleByWikinameAndTitle(wikiname, arti)
+            .then((response) => {
+                setArticleData(JSON.parse(response.content));
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error(error);
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) {
+        return <div>Fetching Data</div>;
+    }
+
+    if (!articleData) {
+        return <div>Article Not Found</div>
+    }
 
     if (action === 'display') {
-        return (
-            <div>
-                <Articles />
-            </div>
-        );    
+        return <Articles articleData={articleData} />;
     } else if (action === 'edit') {
-        return (
-            <div>
-                <EditArticles />
-            </div>
-        );    
-    } else if (action === 'create') {
-        return (
-            <div>
-                <CreateArticles />
-            </div>
-        );    
+        return <EditArticles articleData={articleData} />;
     } else {
-        return (
-            <div>
-                ACTION UNRECOGNIZED
-            </div>
-        );
-    } 
+        return <div>ACTION UNRECOGNIZED</div>;
+    }
 }
 
 export default ArticleTopmost;

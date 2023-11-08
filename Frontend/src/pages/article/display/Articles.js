@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { selectArticleByWikinameAndTitle } from '../../../services/ApiService';
-import { useParams } from 'react-router-dom';
+
 import Color from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
 import TextStyle from '@tiptap/extension-text-style';
@@ -10,9 +9,10 @@ import {
     Container,
   } from '@mui/material';
 
-import './for_article.scss';
+import './for_article_display.scss';
 
 /* NOTE & TODO
+
     -> Why does 'tiptapStyles.scss' affect this component? 
 
     -> I initially tried to do something very confusing with rendering a stored article.
@@ -44,21 +44,8 @@ const extensions = [
     }),
 ];
 
-function Articles() {
-    const [articleData, setArticleData] = useState(null);
-
-    const params = useParams();
-    const wikiname = params.wikiname;
-    const title = params.arti;
-
-    useEffect(() => {
-        selectArticleByWikinameAndTitle(wikiname, title)
-            .then((response) => {
-                setArticleData(JSON.parse(response.content));
-            });
-    }, []);
-
-    if (articleData) {
+function Articles(props) {
+    if (props.articleData) {
         return (
         <Container
             className="article-display-container"
@@ -72,12 +59,12 @@ function Articles() {
                 
                 editable={false}
                 extensions={extensions}
-                content={articleData}
+                content={props.articleData}
             />
         </Container>
         )
     } else {
-        return null;
+        return <div>not defined?</div>;
     }
 
 

@@ -8,7 +8,7 @@ import SocialLogin from '../../pages/auth/SocialLogin';
 
 import AdminTopmost from '../../pages/admin/AdminTopmost';
 import ArticleTopmost from '../../pages/article/ArticleTopmost';
-import WikiTopmost from '../../pages/article/WikiTopmost';
+import CreateArticle from '../../pages/article/create/CreateArticle';
 import WikidraftTopmost from '../../pages/wiki/WikidraftTopmost';
 
 import ArticleParsingPrac from '../../practices/ArticleParsingPrac';
@@ -65,8 +65,8 @@ function AppRouter() {
                     />
 
                     <Route
-                        path="/wiki/:wikiname"
-                        element={<WikiTopmost /> }
+                        path="/wiki/:wikiname/create-new"
+                        element={<CreateArticle /> }
                     />
                     
                     <Route 

@@ -39,11 +39,6 @@ const MenuBar = (prop) => {
       prop.createNewArticle(editor.getJSON());
     }
 
-    if (prop.justflag) {
-      console.log(editor.getJSON());
-      console.log(`it's working`);
-    }
-
     /*
     if (prop.editFlag) {
       console.log(editor.getJSON());
@@ -171,6 +166,16 @@ const MenuBar = (prop) => {
                 blockquote
               </FormatQuote>
             </ToggleButton>
+
+
+
+
+            // image
+            
+
+
+            
+            
             <ToggleButton 
               onClick={() => editor.chain().focus().setHardBreak().run()}
               value={`what value should be given?`}
