@@ -5,19 +5,16 @@ import ImageComplementary from './ImageComplementary';
 
 /* NOTE/TODO
     -> This is a custom node for image handling.
-
-
-
 */
 
-interface optionsI {
+interface optionsSrcAlt {
     src: string;
     alt?: string;
 }
 
 interface ImageCommands<RT> {
     imageRenderer: {
-        setImage: (options: optionsI) => RT;
+        setImage: (options: optionsSrcAlt) => RT;
     };
 }
 
@@ -59,7 +56,7 @@ const ImageNode = Node.create<ImageCommands<any>>({
     addCommands() {
         return {
             setImage:   
-                (options: optionsI) =>
+                (options: optionsSrcAlt) =>
                 ({ commands }: CommandProps) => {
                     return commands.insertContent({
                         type: this.name,
@@ -74,10 +71,10 @@ const ImageNode = Node.create<ImageCommands<any>>({
     },
 
     addNodeView() {
-        return ReactNodeViewRenderer(Component);
+        return ReactNodeViewRenderer(ImageComplementary);
     }
 
 
 });
 
-export default Image;
+export default ImageNode;

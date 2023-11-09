@@ -27,7 +27,7 @@ const CreateArticlePractice = () => {
 
         const wikiname = 'Wiki Example';
         const title = 'example article title';
-        const contentString = JSON.stringify(contents);
+        const contentString = contents;
         const lastEditor = localStorage.getItem("USERNAME");
         const versionMemo = 'creating a new article example'
 

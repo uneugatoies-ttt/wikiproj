@@ -56,7 +56,6 @@ function Articles(props) {
             }}
         >
             <EditorProvider
-                
                 editable={false}
                 extensions={extensions}
                 content={props.articleData}
@@ -66,41 +65,6 @@ function Articles(props) {
     } else {
         return <div>not defined?</div>;
     }
-
-
-    /*
-    const displayArticle = (articleHtml) => {
-        setHtmlParsed(articleHtml);
-    }
-    
-    if (htmlParsed) {
-        return (
-            <EditorProvider
-                editable={false}
-                extensions={extensions}
-                content={articleData}
-            />
-        )
-    } else if (articleData) {
-        return (
-            <div>
-                <div>FETCHING INCOMPLETE</div>;
-                <div className="editor-hidden">
-                    <EditorProvider
-                        slotBefore={
-                            <DisplayArticle
-                                displayArticle={displayArticle}
-                            />
-                        }
-                        extensions={extensions}
-                        content={articleData}
-                    />
-                </div>
-            </div>
-        );
-    } else {
-        return <div>FETCHING INCOMPLETE</div>;
-    }*/
 }
 
 export default Articles;
