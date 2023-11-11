@@ -12,9 +12,9 @@ interface optionsSrcAlt {
     alt?: string;
 }
 
-interface ImageCommands<RT> {
+interface ImageCommands<ReturnType> {
     imageRenderer: {
-        setImage: (options: optionsSrcAlt) => RT;
+        setImage: (options: optionsSrcAlt) => ReturnType;
     };
 }
 
@@ -24,7 +24,7 @@ export interface ImageOptions {
 }
 
 const ImageNode = Node.create<ImageCommands<any>>({
-    name: "image-related",
+    name: "image-renderer",
     group: "block",
     content: "block+",
     inline: false,
@@ -42,8 +42,7 @@ const ImageNode = Node.create<ImageCommands<any>>({
         };
     },
 
-    // How this node should be parsed from HTML content: the tag 'image-renderer'
-    // that has a 'src' attribute? IWAAIL.
+    // How should this node be parsed from HTML content: the tag 'image-renderer' that has a 'src' attribute? IWAAIL.
     parseHTML() {
         return [
             {
@@ -52,6 +51,10 @@ const ImageNode = Node.create<ImageCommands<any>>({
         ];
     },
 
+
+
+    
+    // I guess, 'commands.insertContent()' inserts the entered image as HTML into this article.
     // @ts-ignore
     addCommands() {
         return {
@@ -59,12 +62,20 @@ const ImageNode = Node.create<ImageCommands<any>>({
                 (options: optionsSrcAlt) =>
                 ({ commands }: CommandProps) => {
                     return commands.insertContent({
-                        type: this.name,
-                        attrs: options,
+                        //content: [/* I have to fill this */],
+                        // Initially the 'type' was set as 'this.name', which I cannot understand
+                        // the reason behind it.
+                        type: "img",
+                        src: options.src,
+                        alt: options.alt,
                     });
                 }
         };
     },
+
+
+
+
 
     renderHTML({ HTMLAttributes }) {
         return ["image-renderer", mergeAttributes(HTMLAttributes)];

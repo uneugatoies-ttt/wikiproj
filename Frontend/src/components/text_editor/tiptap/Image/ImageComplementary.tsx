@@ -21,7 +21,7 @@ export default function Image(props: NodeViewRendererProps) {
             <div className="drag-handle"></div>
             <Container
                 maxWidth="sm"
-                sx={{ textAligh: "center", marginTop: 3, marginBottom: 3 }}
+                sx={{ textAlign: "center", marginTop: 3, marginBottom: 3 }}
             >
                 <LazyLoadImage
                     alt={props.node.attrs.alt}

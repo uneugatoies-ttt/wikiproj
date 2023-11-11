@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { 
-  Editor,
-  useCurrentEditor
+  Editor
 } from '@tiptap/react';
 
 import { 

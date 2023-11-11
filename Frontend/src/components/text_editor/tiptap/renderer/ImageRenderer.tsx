@@ -9,7 +9,6 @@ import {
     Fade,
     Button,
 } from '@mui/material';
-// LoadingButton?
 
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
@@ -28,20 +27,22 @@ export default function PickImage({
     setThumbnail: (value: { src: string, alt: string }) => void;
     inputs?: { src: string; alt: string };
 }) {
-    const [alert, setAlert] = React.useState(false);
-
+    // eslint-disable-next-line no-unused-vars
     const formik = useFormik<{ src: string, alt: string }>({
         initialValues: inputs ? inputs : { src: "", alt: "", },
         validationSchema: Yup.object().shape({
             src: Yup.string().url().required(),
-            alt: Yup.string().required(),
+            alt: Yup.string(),
         }),
         onSubmit: () => {},
     });
 
     const { 
-        errors, touched, handleSubmit, isSubmitting,
-        getFieldProps, values, setFieldValue,
+        errors,
+        touched,
+        isSubmitting,
+        getFieldProps,
+        values, 
     } = formik;
 
     return (
@@ -76,12 +77,12 @@ export default function PickImage({
                     {...getFieldProps("src")}
                     error={Boolean(
                         // @ts-ignore
-                        touched.src && errors.src
+                        touched["src"] && errors["src"]
                     )}
                     // @ts-ignore
                     helperText={
                         /* eslint-disable */
-                        errors.src
+                        errors["src"]
                         /* eslint-enable */
                     }
                     disabled={isSubmitting}
@@ -99,30 +100,24 @@ export default function PickImage({
                     // @ts-ignore
                     helperText={
                         /* eslint-disable */
-                        
                         errors["alt"]
-                        
                         /* eslint-enable */
                     }
                     disabled={isSubmitting}
                 />
-                
             </DialogContent>
 
             <DialogActions>
-
                 <Button
                     onClick={() => {
                         if (formik.touched.src && !formik.errors["src"]) {
                             setThumbnail(formik.values);
                             handleClose();
                         }
-                        setAlert(true);
                     }}
                 >
                     Save
                 </Button>
-
             </DialogActions>
 
         </Dialog>

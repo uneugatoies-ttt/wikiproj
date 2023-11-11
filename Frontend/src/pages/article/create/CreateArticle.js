@@ -32,8 +32,6 @@ const CreateArticlePractice = () => {
         const versionMemo = 'creating a new article example'
 
         console.log(contentString);
-
-
         
         insertArticle({
             wikiname: wikiname,
@@ -48,10 +46,6 @@ const CreateArticlePractice = () => {
         );
     }
 
-    const editArticle = () => {
-
-    }
-  
     const content = {      
         "type": "doc",
         "content": [

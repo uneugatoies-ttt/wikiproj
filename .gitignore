@@ -15,6 +15,7 @@ Backend/.metadata/
 Backend/src/main/resources/application-dev2.yaml
 Backend/src/main/resources/application.yml
 Backend/src/main/java/com/example/wikiproj/security/secret-key.txt
+Backend/src/main/java/com/example/wikiproj/practice/
 
 # Ignore frontend files and directories
 Frontend/node_modules/
