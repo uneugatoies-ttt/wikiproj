@@ -28,42 +28,56 @@ import './tiptapStyles.scss';
     > as JSON: the data should be raw JSON data.
 */
 
-const extensions = [
-  Color.configure({ types: [TextStyle.name, ListItem.name] }),
-  TextStyle.configure({ types: [ListItem.name] }),
-  StarterKit.configure({
-    bulletList: {
-      keepMarks: true,
-      keepAttributes: false,
-    },
-    orderedList: {
-      keepMarks: true,
-      keepAttributes: false,
-    },
-  }),
-  Image,
-]
 
-const TiptapEditor = (prop) => {
+interface TiptapEditorProps {
+  content: string;
+  creationFlag: boolean;
+  createNewArticle: (contents: string) => void;
+}
+
+const TiptapEditor: React.FC<TiptapEditorProps> = ({
+  content,
+  creationFlag,
+  createNewArticle
+}) => {
+
+  const extensions = [
+    Color.configure({ types: [TextStyle.name, ListItem.name] }),
+    TextStyle.configure({  }),
+    StarterKit.configure({
+      bulletList: {
+        keepMarks: true,
+        keepAttributes: false,
+      },
+      orderedList: {
+        keepMarks: true,
+        keepAttributes: false,
+      },
+    }),
+    Image,
+  ]
+  
+  const editor = useEditor({
+    extensions: extensions,
+    content: content,
+  })
+
   return (
     <Container component="main" sx={{
         marginTop: "3%",
         width: 'auto'
       }}
     >
-      <EditorProvider
-        slotBefore={
-          <MenuBar 
-            creationFlag={prop.creationFlag}
-            createNewArticle={prop.createNewArticle} 
-            justflag={prop.justflag}
-          />
-        }
-        extensions={extensions}
-        content={prop.content}
-      >
 
-      </EditorProvider>
+      <MenuBar
+        creationFlag={creationFlag}
+        createNewArticle={createNewArticle} 
+        editor={editor}
+      />
+
+      <EditorContent editor={editor} />
+
+
     </Container>
   );
 };

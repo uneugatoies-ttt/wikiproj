@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { 
-  Editor
-  //useCurrentEditor
+  Editor,
+  useCurrentEditor
 } from '@tiptap/react';
 
 import { 
@@ -45,15 +45,13 @@ const MenuBar = ({
 }: {
   creationFlag: boolean,
   createNewArticle: (contents: string) => void,
-  editor: Editor, 
+  editor: Editor | null, 
 }) => {
   const [openPickImage, setOpenPickImage] = React.useState(false);
 
-  /*
-  const { editor } = useCurrentEditor();
   if (!editor) {
     return null;
-  }*/
+  }
 
   if (creationFlag) {
     console.log(editor.getJSON());

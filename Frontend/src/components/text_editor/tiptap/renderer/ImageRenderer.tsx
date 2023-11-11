@@ -14,29 +14,23 @@ import {
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import { useFormik } from 'formik';
-import Yup from 'yup';
-
-
-/* NOTE/TODO
-    -> I still do not understand what 'formik' and 'yup' are.
-    Should investigate and learn about them.
-
-*/
-
-
+import * as Yup from 'yup';
 
 
 export default function PickImage({
-    open, handleClose, setThumbnail, inputs
+    open,
+    handleClose,
+    setThumbnail,
+    inputs
 }: {
     open: boolean;
     handleClose: () => void,
-    setThumbnail: (value: { src: string; alt: string }) => void;
+    setThumbnail: (value: { src: string, alt: string }) => void;
     inputs?: { src: string; alt: string };
 }) {
     const [alert, setAlert] = React.useState(false);
 
-    const formik = useFormik<{ src: string; alt: string }>({
+    const formik = useFormik<{ src: string, alt: string }>({
         initialValues: inputs ? inputs : { src: "", alt: "", },
         validationSchema: Yup.object().shape({
             src: Yup.string().url().required(),
@@ -82,14 +76,12 @@ export default function PickImage({
                     {...getFieldProps("src")}
                     error={Boolean(
                         // @ts-ignore
-                        touched["src"] && errors["src"]
+                        touched.src && errors.src
                     )}
                     // @ts-ignore
                     helperText={
                         /* eslint-disable */
-                        
-                        errors["src"]
-                        
+                        errors.src
                         /* eslint-enable */
                     }
                     disabled={isSubmitting}

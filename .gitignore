@@ -18,3 +18,4 @@ Backend/src/main/java/com/example/wikiproj/security/secret-key.txt
 
 # Ignore frontend files and directories
 Frontend/node_modules/
+Frontend/src/practices/
