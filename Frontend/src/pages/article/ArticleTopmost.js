@@ -27,12 +27,8 @@ function ArticleTopmost() {
         }
 
         selectArticleByWikinameAndTitle(wikiname, arti)
-            .then((response) => {
-                setArticleData(JSON.parse(response.content));
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error(error);
+            .then((result) => {
+                setArticleData(JSON.parse(result.content));
                 setLoading(false);
             });
     }, []);

@@ -10,11 +10,11 @@ import Color from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
 import TextStyle from '@tiptap/extension-text-style';
 import StarterKit from '@tiptap/starter-kit';
+import { Image } from '@tiptap/extension-image';
 
 import { Container } from '@mui/material';
 
 import MenuBar from './MenuBar';
-import Image from './Image';
 
 import './tiptapStyles.scss';
 
@@ -54,7 +54,10 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
         keepAttributes: false,
       },
     }),
-    Image,
+    Image.configure({
+      // If you don't want to inject images to the article as blocks, then 'inline' should be true.
+      //inline: true,
+    })
   ]
   
   const editor = useEditor({

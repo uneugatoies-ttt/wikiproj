@@ -3,11 +3,6 @@ import { Container, Grid, Typography, TextField, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { signin, socialLogin } from '../../services/ApiService';
 
-/*  TODO
-    -> 
-
-*/
-
 function Login() {
     const [formData, setFormData] = React.useState({ username: '', password: '' });
 
@@ -19,18 +14,7 @@ function Login() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        signin({ username: formData.username, password: formData.password })
-            .then((res) => {
-                if (res === 'user not found') {
-                    console.log('user not found');
-                } else {
-                    if (res.token && res.username) {
-                        localStorage.setItem("ACCESS_TOKEN", res.token);
-                        localStorage.setItem("USERNAME", res.username);
-                        window.location.href = '/';
-                    }
-                }
-            });
+        signin({ username: formData.username, password: formData.password });
     }
 
     const handleSocialLogin = (provider) => {

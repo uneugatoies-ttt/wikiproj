@@ -8,7 +8,7 @@ import {
     Radio,
     FormControlLabel
 } from '@mui/material';
-import { call } from '../../services/ApiService';
+import { createWikiDraft } from '../../services/ApiService';
 
 function CreateWikiDraft() {
     const [selectedOption, setSelectedOption] = React.useState('option1');
@@ -26,19 +26,7 @@ function CreateWikiDraft() {
         const proponent = localStorage.getItem("USERNAME");
         const wikiClassName = data.get("wikiClassName");
 
-        console.log(wikiname);
-        console.log(description);
-        console.log(proponent);
-        console.log(wikiClassName);
-
-        call("/wiki/draft", "POST", { wikiname: wikiname, description: description, proponent: proponent, wikiClassName: wikiClassName })
-            .then((response) => {
-                console.log("Is it done?");
-            })
-            .catch((error) => {
-                console.log(error);
-            }
-        );
+        createWikiDraft({ wikiname: wikiname, description: description, proponent: proponent, wikiClassName: wikiClassName });
     }
 
     return (

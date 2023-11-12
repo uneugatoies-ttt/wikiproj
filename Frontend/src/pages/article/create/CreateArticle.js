@@ -39,11 +39,7 @@ const CreateArticlePractice = () => {
             content: contentString,
             lastEditor: lastEditor,
             versionMemo: versionMemo,
-        })
-            .then((response) => {
-                console.log(response);
-            }
-        );
+        });
     }
 
     const content = {      

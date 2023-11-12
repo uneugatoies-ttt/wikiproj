@@ -12,11 +12,7 @@ function SignUp() {
         const password = data.get("password");
         const email = data.get("email");
 
-        signup({ username: username, password: password, email: email })
-            .then((response) => {
-                window.location.href = '/login';
-            }
-        );
+        signup({ username: username, password: password, email: email });
     };
 
     return (

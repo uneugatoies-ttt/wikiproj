@@ -58,7 +58,7 @@ public class WikiCandidateService {
 			
 			WikiCandidateDTO resultDTO = WikiCandidateDTO.builder()
 											.wikiCandidateId(createdCandidate.getWikiCandidateId())
-											.wikiClassName(createdCandidate.getWikiname())
+											.wikiname(createdCandidate.getWikiname())
 											.description(createdCandidate.getDescription())
 											.wikiClassName(createdCandidate.getWikiClass().getClassName())
 											.build();

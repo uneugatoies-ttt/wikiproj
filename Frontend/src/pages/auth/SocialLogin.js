@@ -1,6 +1,17 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
+/*  NOTE/TODO
+    -> Note that this component is for the end point of the OAuth authentication;
+    after the process in the backend is over, the logic is redirected to this component
+    with 'token' and 'username' as parameters in the URL.
+    If those two are present, then this component parses two values and stores them
+    into the localStorage of the user's browser.
+
+    -> So, don't be puzzled by the fact that this component is not using the 'socialLogin()'
+    from the APIs of 'ApiService'.
+*/
+
 const SocialLogin = (props) => {
     // this function is used to parse the token from the given parameter of URL. 
     const getUrlParameter = (name) => {
