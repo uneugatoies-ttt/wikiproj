@@ -57,6 +57,9 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
     Image.configure({
       // If you don't want to inject images to the article as blocks, then 'inline' should be true.
       //inline: true,
+      HTMLAttributes: {
+        class: 'tiptap-editor-images'
+      }
     })
   ]
   
@@ -64,6 +67,13 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
     extensions: extensions,
     content: content,
   })
+
+  const addImage = React.useCallback(() => {
+    const url = window.prompt('URL');
+    if (url) {
+      editor?.chain().focus().setImage({ src: url }).run();
+    }
+  }, [editor]);
 
   return (
     <Container component="main" sx={{

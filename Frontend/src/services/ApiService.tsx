@@ -218,7 +218,7 @@ export async function insertArticle(articleDTO: ArticleDTO) {
 // IMAGE HANDLING RELATED BEGINS
 export async function imageFetch(imagePath: string) {
     try {
-        const response = await fetch(API_BASE_URL + '/images/' + imagePath);
+        const response = await fetch(API_BASE_URL + '/image/' + imagePath);
         if (!response.ok) {
             throw new Error(`Image request failed with status: ${response.status}`);
         }
