@@ -1,5 +1,6 @@
 package com.example.wikiproj.security;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,9 +25,19 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class JwtKeyReader {
 	
+	private static final String FILEPATH = 
+			"." + File.separator +
+			"src" + File.separator +
+			"main" + File.separator +
+			"java" + File.separator +
+			"com" + File.separator + 
+			"example" + File.separator +
+			"wikiproj" + File.separator +
+			"security" + File.separator +
+			"secret-key.txt";
+	
 	public static String readKey() throws IOException {
-		String filepath = ".\\src\\main\\java\\com\\example\\wikiproj\\security\\secret-key.txt";
-		Path p = Paths.get(filepath);
+		Path p = Paths.get(FILEPATH);
 		byte[] keyBytes = Files.readAllBytes(p);
 		return new String(keyBytes, "UTF-8");
 	}

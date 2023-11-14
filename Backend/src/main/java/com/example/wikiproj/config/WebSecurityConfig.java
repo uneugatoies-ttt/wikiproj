@@ -52,8 +52,9 @@ public class WebSecurityConfig {
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authorizeRequests()
-			//.antMatchers("/", "/auth/**", "/oauth2/**", "/images/**", "/temp").permitAll()
-			.antMatchers("/", "/auth/**", "/oauth2/**", "/temp").permitAll()
+			// '/images/**' is for image testing; it should be discarded after it's done.
+			.antMatchers("/", "/auth/**", "/oauth2/**", "/image/**", "/temp").permitAll()
+			//.antMatchers("/", "/auth/**", "/oauth2/**", "/temp").permitAll()
 			.anyRequest()
 			.authenticated()
 			.and()

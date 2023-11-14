@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, List } from '@mui/material';
 
-import { createWiki, deleteWikiDraft, fetchDrafts } from '../../services/ApiService';
+import { createWiki, deleteWikiDraft, fetchWikiDrafts } from '../../services/ApiService';
 import Drafts from './Drafts';
 
 function WikiDrafts() {
@@ -28,7 +28,7 @@ function WikiDrafts() {
             
     React.useEffect(() => {
         if (reload) {
-            fetchDrafts().then((result) => {
+            fetchWikiDrafts().then((result) => {
                 setDrafts(result);
                 setReload(false);
             });

@@ -10,6 +10,8 @@ import {
     Button,
 } from '@mui/material';
 
+import { Editor } from '@tiptap/core';
+
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import { useFormik } from 'formik';
@@ -19,12 +21,14 @@ import * as Yup from 'yup';
 export default function PickImage({
     open,
     handleClose,
-    setThumbnail,
+    //setThumbnail,
+    editor,
     inputs
 }: {
     open: boolean;
     handleClose: () => void,
-    setThumbnail: (value: { src: string, alt: string }) => void;
+    //setThumbnail: (value: { src: string, alt: string }) => void;
+    editor: Editor,
     inputs?: { src: string; alt: string };
 }) {
     // eslint-disable-next-line no-unused-vars
@@ -111,7 +115,11 @@ export default function PickImage({
                 <Button
                     onClick={() => {
                         if (formik.touched.src && !formik.errors["src"]) {
-                            setThumbnail(formik.values);
+                            editor
+                                .chain()
+                                .focus()
+                                .setImage({ src: formik.values.src, alt: formik.values.alt })
+                                .run();
                             handleClose();
                         }
                     }}

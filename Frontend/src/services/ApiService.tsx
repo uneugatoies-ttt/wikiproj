@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '../config/api-config.js';
+import { API_BASE_URL } from '../config/api-config';
 
 export async function call(api: string, method: string, request: { [key: string]: any } | null) {
     try {
@@ -29,7 +29,7 @@ export async function call(api: string, method: string, request: { [key: string]
             throw new Error(errorMessage);
         }
     } catch (error) {
-        console.log('Error with using fetch()', error);
+        console.error('Error with using fetch()', error);
         throw error;
     }
 };
@@ -54,7 +54,7 @@ export async function signin(userDTO: UserDTO) {
             }
         })
     } catch (error) {
-        console.log('Error with using signin()', error);
+        console.error('Error with using signin()', error);
         throw error;
     }
 }
@@ -75,7 +75,7 @@ export async function signup(userDTO: UserDTO) {
             }
         });
     } catch (error) {
-        console.log('Error with using signup()', error);
+        console.error('Error with using signup()', error);
         throw error;
     }
 }
@@ -127,7 +127,7 @@ export async function createWiki(wikiDTO: WikiAndWikiDraftDTO) {
             }
         })
     } catch(error) {
-        console.log('Error with using createWiki()', error);
+        console.error('Error with using createWiki()', error);
         throw error;
     }
 }
@@ -143,7 +143,7 @@ export async function createWikiDraft(wikiDraftDTO: WikiAndWikiDraftDTO) {
             }
         });
     } catch (error) {
-        console.log('Error with using createWikiDraft():', error);
+        console.error('Error with using createWikiDraft():', error);
         throw error;
     }
 }
@@ -155,7 +155,7 @@ export async function fetchWikiDrafts() {
             return result;
         })
     } catch (error) {
-        console.log('Error with using fetchWikiDrafts():', error);
+        console.error('Error with using fetchWikiDrafts():', error);
         throw error;
     }
 }
@@ -169,14 +169,14 @@ export async function deleteWikiDraft(id: number) {
             }
         })
     } catch (error) {
-        console.log('Error with using deleteWikiDraft():', error);
+        console.error('Error with using deleteWikiDraft():', error);
         throw error;
     }
 }
 // WIKI DRAFT RELATED ENDS
 
 // ARTICLE RELATED BEGINS
-interface ArticleDTO {
+export interface ArticleDTO {
     wikiname: string,
     title: string,
     content: string,
@@ -184,6 +184,7 @@ interface ArticleDTO {
     lastEditor?: string,
     categories?: string[],
     tags?: string[],
+    versionMemo?: string,
 }
 
 export async function selectArticleByWikinameAndTitle(wikiname: string, title: string) {
@@ -195,28 +196,50 @@ export async function selectArticleByWikinameAndTitle(wikiname: string, title: s
             }
         });
     } catch (error) {
-        console.log('Error with using selectArticleByWikinameAndArticle():', error);
+        console.error('Error with using selectArticleByWikinameAndArticle():', error);
         throw error;
     }
 }
 
 export async function insertArticle(articleDTO: ArticleDTO) {
     try {
-        const response = await call('/article/insert', 'POST', articleDTO);
+        const response = await call('/article', 'POST', articleDTO);
         response.then((result: ArticleDTO) => {
             if (result.articleId) {
                 console.log(result);
             }
-        })
+        });
     } catch (error) {
-        console.log('Error with using insertArticle():', error);
+        console.error('Error with using insertArticle():', error);
         throw error;
+    }
+}
+
+export async function editArticle(articleDTO: ArticleDTO) {
+    try {
+        const response = await call('/article', 'PUT', articleDTO);
+        response.then((result: ArticleDTO) => {
+            if (result.articleId) {
+                console.log(result);
+            }
+        });
+    } catch (error) {
+        console.error('Error with using editArticle():', error);
+        throw error;    
     }
 }
 // ARTICLE RELATED ENDS
 
 // IMAGE HANDLING RELATED BEGINS
-export async function imageFetch(imagePath: string) {
+export async function insertImage() {
+    try {
+
+    } catch (error) {
+        console.error('')
+    }
+}
+
+export async function fetchImage(imagePath: string) {
     try {
         const response = await fetch(API_BASE_URL + '/image/' + imagePath);
         if (!response.ok) {

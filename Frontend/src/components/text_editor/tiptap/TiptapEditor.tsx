@@ -17,6 +17,7 @@ import { Container } from '@mui/material';
 import MenuBar from './MenuBar';
 
 import './tiptapStyles.scss';
+import { ArticleDTO } from '../../../services/ApiService';
 
 /* NOTE/TODO
   > Why can't you get the 'editor' by calling useCurrentEditor() at 'TiptapEditor'
@@ -59,7 +60,8 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
       //inline: true,
       HTMLAttributes: {
         class: 'tiptap-editor-images'
-      }
+      },
+      
     })
   ]
   
@@ -68,12 +70,7 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
     content: content,
   })
 
-  const addImage = React.useCallback(() => {
-    const url = window.prompt('URL');
-    if (url) {
-      editor?.chain().focus().setImage({ src: url }).run();
-    }
-  }, [editor]);
+
 
   return (
     <Container component="main" sx={{

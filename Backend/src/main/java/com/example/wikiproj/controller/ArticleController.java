@@ -52,7 +52,7 @@ public class ArticleController {
 		}
 	}
 	
-	@PostMapping("/insert")
+	@PostMapping()
 	public ResponseEntity<?> insertArticle(@RequestBody ArticleDTO articleDTO) {
 		try {
 			if (articleDTO.getLastEditor() == null) 
@@ -77,7 +77,7 @@ public class ArticleController {
 		}
 	}
 	
-	@PutMapping("/update")
+	@PutMapping()
 	public ResponseEntity<?> updateArticle(@RequestBody ArticleDTO articleDTO) {
 		try {
 			if (
@@ -93,7 +93,7 @@ public class ArticleController {
 		}
 	}
 	
-	@DeleteMapping("/delete")
+	@DeleteMapping()
 	public ResponseEntity<?> deleteArticle(@RequestBody Long articleId) {
 		try {
 			if (articleId == null) throw new RuntimeException("ID is null");

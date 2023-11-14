@@ -25,7 +25,8 @@ import {
 } from '@mui/icons-material';
 
 import ParagraphHeadingDropdown from './ParagraphHeadingDropdown';
-import PickImage from './renderer/ImageRenderer';
+import ChooseImage from './renderer/ImageInput';
+import PickImage from './renderer/ImageRenderer2';
 
 
 /* NOTE/TODO
@@ -46,7 +47,7 @@ const MenuBar = ({
   createNewArticle: (contents: string) => void,
   editor: Editor | null, 
 }) => {
-  const [openPickImage, setOpenPickImage] = React.useState(false);
+  const [openChooseImage, setOpenChooseImage] = React.useState(false);
 
   if (!editor) {
     return null;
@@ -158,6 +159,7 @@ const MenuBar = ({
           </ToggleButton>
         </ToggleButtonGroup>
       </Paper>
+
       <Paper>
         <ToggleButtonGroup>
           <ToggleButton
@@ -179,11 +181,8 @@ const MenuBar = ({
             </FormatQuote>
           </ToggleButton>
 
-
-
-
           <ToggleButton
-            onClick={() => setOpenPickImage(true)}
+            onClick={() => setOpenChooseImage(true)}
             selected={editor.isActive("image-renderer")}
             value="image-renderer"
             aria-label="iamge-renderer"
@@ -191,20 +190,19 @@ const MenuBar = ({
             <Image/>
           </ToggleButton>
 
-          <PickImage
-            open={openPickImage}
-            handleClose={() => setOpenPickImage(false)}
-            setThumbnail={(value: {src: string; alt?: string }) => {
-              editor
-                .chain()
-                .focus()
-                // @ts-ignore
-                .setImage({ src: value.src, alt: value.alt })
-                .run();
-            }}
+          <PickImage 
+            open={openChooseImage}
+            handleClose={() => setOpenChooseImage(false)}
+            editor={editor}
+
           />
 
-          
+        {/* <ChooseImage
+            open={openChooseImage}
+            handleClose={() => setOpenChooseImage(false)}
+            editor={editor}
+          /> */}
+
           
           <ToggleButton 
             onClick={() => editor.chain().focus().setHardBreak().run()}

@@ -11,7 +11,7 @@ import ArticleTopmost from '../../pages/article/ArticleTopmost';
 import CreateArticle from '../../pages/article/create/CreateArticle';
 import WikidraftTopmost from '../../pages/wiki/WikidraftTopmost';
 
-import ArticleParsingPrac from '../../practices/ArticleParsingPrac';
+import ImageTest from '../../practices/ImageTest';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Typography, Box } from '@mui/material';
@@ -74,7 +74,7 @@ function AppRouter() {
                         element={<ArticleTopmost />}
                     />
 
-                    <Route path="/prac" element={<ArticleParsingPrac />} />
+                    <Route path="/prac" element={<ImageTest />} />
 
                 </Routes>
             </BrowserRouter>
