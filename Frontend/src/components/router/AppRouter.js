@@ -12,6 +12,7 @@ import CreateArticle from '../../pages/article/create/CreateArticle';
 import WikidraftTopmost from '../../pages/wiki/WikidraftTopmost';
 
 import ImageTest from '../../practices/ImageTest';
+import ImageFrameTest from '../../practices/ImageFrameTest';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Typography, Box } from '@mui/material';
@@ -74,7 +75,7 @@ function AppRouter() {
                         element={<ArticleTopmost />}
                     />
 
-                    <Route path="/prac" element={<ImageTest />} />
+                    <Route path="/prac" element={<ImageFrameTest />} />
 
                 </Routes>
             </BrowserRouter>

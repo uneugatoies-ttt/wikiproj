@@ -1,9 +1,7 @@
 import React from 'react';
 
 import { 
-  EditorProvider,
   useEditor,
-  Editor,
   EditorContent,
 } from '@tiptap/react';
 import Color from '@tiptap/extension-color';
@@ -17,7 +15,6 @@ import { Container } from '@mui/material';
 import MenuBar from './MenuBar';
 
 import './tiptapStyles.scss';
-import { ArticleDTO } from '../../../services/ApiService';
 
 /* NOTE/TODO
   > Why can't you get the 'editor' by calling useCurrentEditor() at 'TiptapEditor'
@@ -70,24 +67,18 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
     content: content,
   })
 
-
-
   return (
     <Container component="main" sx={{
         marginTop: "3%",
         width: 'auto'
       }}
     >
-
       <MenuBar
         creationFlag={creationFlag}
         createNewArticle={createNewArticle} 
         editor={editor}
       />
-
       <EditorContent editor={editor} />
-
-
     </Container>
   );
 };

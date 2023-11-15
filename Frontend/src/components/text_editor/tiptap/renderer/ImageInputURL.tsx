@@ -18,7 +18,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 
-export default function PickImage({
+export default function ChooseImageURL({
     open,
     handleClose,
     //setThumbnail,

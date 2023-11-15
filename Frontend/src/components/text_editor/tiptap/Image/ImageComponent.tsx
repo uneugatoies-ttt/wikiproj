@@ -3,7 +3,6 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { NodeViewWrapper, NodeViewRendererProps } from '@tiptap/react';
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import { TextField } from '@mui/material';
 
 /* NOTE/TODO
     -> 
@@ -24,8 +23,6 @@ export default function Image(props: NodeViewRendererProps) {
                 maxWidth="sm"
                 sx={{ textAlign: "center", marginTop: 3, marginBottom: 3 }}
             >
-                <TextField/>
-                OHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
                 <LazyLoadImage
                     alt={props.node.attrs.alt}
                     effect="blur"

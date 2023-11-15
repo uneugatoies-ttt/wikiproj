@@ -14,7 +14,9 @@ import { Editor } from '@tiptap/core';
 
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
-//import { insertImage } from '../../../../services/ApiService';
+import { someFunc1 } from '../imgframes/ImageFrame1';
+
+
 
 export default function ChooseImage({
     open,
@@ -34,7 +36,10 @@ export default function ChooseImage({
         if (file) {
             const alt = (document.getElementById('image-alt') as HTMLInputElement)?.value;
             const src = URL.createObjectURL(file);
-            editor.chain().focus().setImage({ src: src, alt: alt }).run();
+            //editor.chain().focus().setImage({ src: src, alt: alt }).run();
+            editor.chain().focus().insertContent({ type: 'customImage', attrs: { src, alt } }).run();
+
+            console.log('DONE');
         }
         handleClose();
         setTimeout(() => {
