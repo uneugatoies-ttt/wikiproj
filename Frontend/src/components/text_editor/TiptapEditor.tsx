@@ -1,20 +1,25 @@
 import React from 'react';
 
 import { 
+  EditorProvider,
   useEditor,
+  Editor,
   EditorContent,
 } from '@tiptap/react';
 import Color from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
 import TextStyle from '@tiptap/extension-text-style';
 import StarterKit from '@tiptap/starter-kit';
-import { Image } from '@tiptap/extension-image';
+//import { Image } from '@tiptap/extension-image';
 
 import { Container } from '@mui/material';
 
 import MenuBar from './MenuBar';
 
+import Image from './Image';
+
 import './tiptapStyles.scss';
+
 
 /* NOTE/TODO
   > Why can't you get the 'editor' by calling useCurrentEditor() at 'TiptapEditor'
@@ -52,6 +57,7 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
         keepAttributes: false,
       },
     }),
+    /*
     Image.configure({
       // If you don't want to inject images to the article as blocks, then 'inline' should be true.
       //inline: true,
@@ -59,13 +65,18 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
         class: 'tiptap-editor-images'
       },
       
-    })
-  ]
+    })*/,
+    Image,
+  ];
+
   
   const editor = useEditor({
+    // @ts-ignore
     extensions: extensions,
-    content: content,
+    contents: content,
   })
+
+
 
   return (
     <Container component="main" sx={{
@@ -73,12 +84,16 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
         width: 'auto'
       }}
     >
+
       <MenuBar
         creationFlag={creationFlag}
         createNewArticle={createNewArticle} 
         editor={editor}
       />
+
       <EditorContent editor={editor} />
+
+
     </Container>
   );
 };

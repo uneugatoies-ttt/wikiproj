@@ -1,5 +1,5 @@
 import React from 'react';
-import TiptapEditor from '../../../components/text_editor/tiptap/TiptapEditor';
+import TiptapEditor from '../../../components/text_editor/TiptapEditor';
 import { Button } from '@mui/material';
 import { insertArticle, ArticleDTO } from '../../../services/ApiService';
 import { Formik, Field, Form, ErrorMessage, useField, FieldAttributes, useFormik } from 'formik';

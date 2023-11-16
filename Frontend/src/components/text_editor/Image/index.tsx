@@ -23,11 +23,13 @@ export interface ImageOptions {
 
 const ImageNode = Node.create<ImageCommands<any>>({
   name: "image-renderer",
+
   group: "block",
+
   content: "block+",
   inline: false,
+
   draggable: true,
-  
   addAttributes() {
     return {
       src: {

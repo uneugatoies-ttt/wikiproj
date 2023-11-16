@@ -5,22 +5,20 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-import { TextField, CardMedia, Alert, Fade, Button } from "@mui/material";
+import { TextField, Button, Alert, Fade } from "@mui/material";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { Editor } from '@tiptap/core';
-
-export default function ChooseImage({
+export default function PickImage({
   open,
   handleClose,
-  editor,
+  setThumbnail,
   inputs,
 }: {
   open: boolean;
   handleClose: () => void;
-  editor: Editor,
+  setThumbnail: (value: { src: string; alt: string }) => void;
   inputs?: { src: string; alt: string };
 }) {
   const [alert, setAlert] = React.useState(false);
@@ -40,15 +38,6 @@ export default function ChooseImage({
     }),
     onSubmit: () => {},
   });
-
-  const setThumbnail = (value: { src: string; alt?: string }) => {
-      editor
-        .chain()
-        .focus()
-        // @ts-ignore
-        .setImage({ src: value.src, alt: value.alt })
-        .run();
-  }
 
   const {
     errors,

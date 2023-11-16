@@ -25,7 +25,8 @@ import {
 } from '@mui/icons-material';
 
 import ParagraphHeadingDropdown from './ParagraphHeadingDropdown';
-import ChooseImage from './QWERTYUIOPASDFGHJKLZXCVBNM/renderer/ImageRenderer';
+import PickImage from './Image/ImageInput';
+
 
 /* NOTE/TODO
   -> I can't remember where the prop 'intoHtml' was being used. IWAAIL
@@ -52,7 +53,7 @@ const MenuBar = ({
   }
 
   if (creationFlag) {
-    //console.log(editor.getJSON());
+    console.log(editor.getJSON());
     createNewArticle(JSON.stringify(editor.getJSON()));
   }
 
@@ -188,14 +189,20 @@ const MenuBar = ({
             <Image/>
           </ToggleButton>
 
-
-
-          <ChooseImage
+          <PickImage 
             open={openChooseImage}
             handleClose={() => setOpenChooseImage(false)}
-            editor={editor}
-            
+            setThumbnail={(value: { src: string; alt?: string }) => {
+                editor
+                  .chain()
+                  .focus()
+                  // @ts-ignore
+                  .setImage({ src: value.src, alt: value.alt })
+                  .run();
+              }}
+
           />
+
           
           <ToggleButton 
             onClick={() => editor.chain().focus().setHardBreak().run()}
