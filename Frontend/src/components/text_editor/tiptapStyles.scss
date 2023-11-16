@@ -30,7 +30,7 @@
   }
   
   /*
-    '.tiptap ProseMirror' won't work.
+    Using the '.tiptap ProseMirror' selector instead of '.tiptap.ProseMirror' won't work.
     
     Of course, if you check out the parsed HTML in the browser, 
     the element that encompasses the content within this editor
@@ -42,10 +42,12 @@
   .tiptap.ProseMirror {
     border-radius: 5px;
     box-shadow: 0 0 0 3px #4d409b;
-    // margin-block: 15px;      this makes the space between this content and the toolbar.
+    // margin-block: 15px;      this makes the space between the content and the toolbar.
     padding-inline: 5px;
     padding-top: 5px;
     padding-bottom: 5px;
+    min-height: 800px;
+
   }
   
   /* Basic editor styles */

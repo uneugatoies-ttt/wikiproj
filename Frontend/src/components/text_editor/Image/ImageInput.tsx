@@ -1,130 +1,127 @@
-import * as React from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import React from 'react';
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+    Alert,
+    Fade,
+    Button,
+} from '@mui/material';
 
-import { TextField, Button, Alert, Fade } from "@mui/material";
+import { Editor } from '@tiptap/core';
 
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import ImageView from './ImageView';
 
-export default function PickImage({
-  open,
-  handleClose,
-  setThumbnail,
-  inputs,
+export default function ChooseImage({
+    open,
+    handleClose,
+    editor,
+    inputs
 }: {
-  open: boolean;
-  handleClose: () => void;
-  setThumbnail: (value: { src: string; alt: string }) => void;
-  inputs?: { src: string; alt: string };
+    open: boolean,
+    handleClose: () => void,
+    editor: Editor,
+    inputs?: { src: string; alt: string },
 }) {
-  const [alert, setAlert] = React.useState(false);
+    const [file, setFile] = React.useState<File | null>(null);
 
-  // eslint-disable-next-line no-unused-vars
-  const formik = useFormik<{ src: string; alt: string }>({
-    initialValues: inputs
-      ? inputs
-      : {
-          src: "",
-          alt: "",
-        },
+    // I think we can consolidate 'handleClose' and 'onButtonClick'.
+    const onButtonClick = () => {
+        if (file) {
+            const alt = (document.getElementById('image-alt') as HTMLInputElement)?.value;
+            const src = URL.createObjectURL(file);
+            editor.chain().focus().setImage({ src, alt }).run();
+            console.log('DONE');
+        }
+        handleClose();
+        setTimeout(() => {
+            setFile(null);
+        }, 300);
+    }
 
-    validationSchema: Yup.object().shape({
-      src: Yup.string().url().required(),
-      alt: Yup.string().required(),
-    }),
-    onSubmit: () => {},
-  });
-
-  const {
-    errors,
-    touched,
-    handleSubmit,
-    isSubmitting,
-    getFieldProps,
-    values,
-    setFieldValue,
-  } = formik;
-  return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      scroll="body"
-      aria-labelledby="scroll-dialog-title"
-      aria-describedby="scroll-dialog-description"
-      fullWidth
-    >
-      <DialogTitle id="scroll-dialog-title">Insert Image</DialogTitle>
-      <DialogContent dividers>
-        <Fade in={true}>
-          <Alert severity="warning" sx={{ mb: 2 }}>
-            Please fill the input.
-          </Alert>
-        </Fade>
-        <LazyLoadImage
-          alt={values.alt}
-          effect="blur"
-          width="auto"
-          src={values.src}
-        />
-        <TextField
-          style={{ marginTop: 15 }}
-          fullWidth
-          label="Photo Url"
-          {...getFieldProps("src")}
-          error={Boolean(
-            // @ts-ignore
-            touched["src"] && errors["src"]
-          )}
-          // @ts-ignore
-          helperText={
-            /* eslint-disable */
-
-            errors["src"]
-
-            /* eslint-enable */
-          }
-          disabled={isSubmitting}
-        />
-
-        <TextField
-          style={{ marginTop: 15 }}
-          fullWidth
-          label="Photo Description"
-          {...getFieldProps("alt")}
-          error={Boolean(
-            // @ts-ignore
-            touched["alt"] && errors["alt"]
-          )}
-          // @ts-ignore
-          helperText={
-            /* eslint-disable */
-
-            errors["alt"]
-
-            /* eslint-enable */
-          }
-          disabled={isSubmitting}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={() => {
-            // setThumbnail()
-
-            if (formik.touched.src && !formik.errors["src"]) {
-              setThumbnail(formik.values);
-              handleClose();
+    const handleFileChange = () => {
+        const [newFile] = (document.getElementById('image-input') as HTMLInputElement)?.files ?? [];
+        setFile(newFile);
+        if (newFile) {
+            const lazyLoadImage = document.getElementById('image-preview-lazy-load') as HTMLImageElement | null;
+            if (lazyLoadImage) {
+                lazyLoadImage.src = URL.createObjectURL(newFile);
+                lazyLoadImage.loading = 'eager';
             }
-            setAlert(true);
-          }}
+        }
+    }
+
+    return (
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            scroll="body"
+            aria-labelledby="scroll-dialog-title"
+            aria-describedby="scroll-dialog-description"
+            fullWidth
         >
-          Save
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
+            <DialogTitle id="scroll-dialog-title">Insert Image</DialogTitle>
+            <form encType="multipart/form-data">
+                <DialogContent dividers>
+
+                    <Fade in={true}>
+                        <Alert severity="warning" sx={{ mb: 2}}>
+                            INPUT DATA NEEDED
+                        </Alert>
+                    </Fade>
+
+                        <div style={{ 
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            <LazyLoadImage
+                                id="image-preview-lazy-load"
+                                alt=""
+                                effect="blur"
+                                style={
+                                    (file) ? ({
+                                        width: "300px",
+                                        height: "300px",
+                                    }) : ({
+                                        width: "auto",
+                                        height: "auto"
+                                    })
+                                }
+                                src={file ? URL.createObjectURL(file) : '#'}
+                            />
+                        </div>
+
+                        <input 
+                            id="image-input"
+                            type="file"
+                            onChange={handleFileChange}
+                        />
+                    
+                        <TextField
+                            style={{ marginTop: 15 }}
+                            fullWidth
+                            label="Photo Description"
+                            required
+                            name="alt"
+                            id="image-alt"
+                            autoFocus
+                        />
+
+                </DialogContent>
+
+                <DialogActions>
+                    <Button
+                        onClick={onButtonClick}
+                    >
+                        Save
+                    </Button>
+                    
+                </DialogActions>
+            </form>
+        </Dialog>
+    )
 }

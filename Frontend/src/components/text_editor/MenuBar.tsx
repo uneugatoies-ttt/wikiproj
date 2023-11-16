@@ -25,8 +25,8 @@ import {
 } from '@mui/icons-material';
 
 import ParagraphHeadingDropdown from './ParagraphHeadingDropdown';
-import PickImage from './Image/ImageInput';
 
+import ChooseImage from './Image/ImageInput';
 
 /* NOTE/TODO
   -> I can't remember where the prop 'intoHtml' was being used. IWAAIL
@@ -189,19 +189,13 @@ const MenuBar = ({
             <Image/>
           </ToggleButton>
 
-          <PickImage 
+          <ChooseImage
             open={openChooseImage}
             handleClose={() => setOpenChooseImage(false)}
-            setThumbnail={(value: { src: string; alt?: string }) => {
-                editor
-                  .chain()
-                  .focus()
-                  // @ts-ignore
-                  .setImage({ src: value.src, alt: value.alt })
-                  .run();
-              }}
-
+            editor={editor}
           />
+
+
 
           
           <ToggleButton 
