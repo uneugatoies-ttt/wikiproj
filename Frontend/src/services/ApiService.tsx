@@ -35,7 +35,7 @@ export async function call(api: string, method: string, request: { [key: string]
 };
 
 // USER AUTH/REGI RELATED BEGINS
-interface UserDTO {
+export interface UserDTO {
     username: string,
     password: string,
     email?: string,
@@ -102,7 +102,7 @@ export function socialLogin(provider: string) {
 // USER AUTH/REGI RELATED ENDS
 
 // WIKI RELATED BEGINS
-interface WikiAndWikiDraftDTO {
+export interface WikiAndWikiDraftDTO {
     wikiname: string,
     description: string,
     wikiClassName: string,

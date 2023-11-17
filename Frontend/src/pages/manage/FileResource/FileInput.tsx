@@ -8,30 +8,23 @@ import {
     Button,
 } from '@mui/material';
 
-import { Editor } from '@tiptap/core';
-
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
-export default function ChooseImage({
+import { insertImage } from '../../../services/ApiService';
+
+export default function ChooseFile({
     open,
     handleClose,
-    editor,
-    //inputs
 }: {
     open: boolean,
     handleClose: () => void,
-    editor: Editor,
-    //inputs?: { src: string; alt: string },
 }) {
     const [file, setFile] = React.useState<File | null>(null);
 
-    // I think we can consolidate 'handleClose' and 'onButtonClick'.
     const onButtonClick = () => {
         if (file) {
             const alt = (document.getElementById('image-alt') as HTMLInputElement)?.value;
             const src = URL.createObjectURL(file);
-            editor.chain().focus().setImage({ src, alt }).run();
-            console.log('DONE');
         }
         handleClose();
         setTimeout(() => {
@@ -117,14 +110,3 @@ export default function ChooseImage({
         </Dialog>
     )
 }
-
-/*
-
-                    <Fade in={true}>
-                        <Alert severity="warning" sx={{ mb: 2}}>
-                            INPUT DATA NEEDED
-                        </Alert>
-                    </Fade>
-
-
-*/
