@@ -67,11 +67,6 @@ export default function ChooseImage({
             <form encType="multipart/form-data">
                 <DialogContent dividers>
 
-                    <Fade in={true}>
-                        <Alert severity="warning" sx={{ mb: 2}}>
-                            INPUT DATA NEEDED
-                        </Alert>
-                    </Fade>
 
                         <div style={{ 
                             display: 'flex',
@@ -84,8 +79,8 @@ export default function ChooseImage({
                                 effect="blur"
                                 style={
                                     (file) ? ({
-                                        width: "300px",
-                                        height: "300px",
+                                        maxWidth: '100%',
+                                        height: 'auto',
                                     }) : ({
                                         width: "auto",
                                         height: "auto"
@@ -125,3 +120,14 @@ export default function ChooseImage({
         </Dialog>
     )
 }
+
+/*
+
+                    <Fade in={true}>
+                        <Alert severity="warning" sx={{ mb: 2}}>
+                            INPUT DATA NEEDED
+                        </Alert>
+                    </Fade>
+
+
+*/

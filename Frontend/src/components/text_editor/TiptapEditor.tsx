@@ -76,8 +76,6 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
     content: content,
   })
 
-
-
   return (
     <Container component="main" sx={{
         marginTop: "3%",

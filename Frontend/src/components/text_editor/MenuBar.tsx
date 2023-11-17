@@ -54,7 +54,7 @@ const MenuBar = ({
 
   if (creationFlag) {
     console.log(editor.getJSON());
-    createNewArticle(JSON.stringify(editor.getJSON()));
+    // createNewArticle(JSON.stringify(editor.getJSON()));
   }
 
   return (
