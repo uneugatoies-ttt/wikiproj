@@ -1,4 +1,4 @@
-# Ignore backend files and directories
+# Backend
 Backend/.gradle/
 Backend/.settings/
 Backend/bin/
@@ -18,6 +18,6 @@ Backend/src/main/resources/static/
 Backend/src/main/java/com/example/wikiproj/security/secret-key.txt
 Backend/src/main/java/com/example/wikiproj/practice/
 
-# Ignore frontend files and directories
+# Frontend
 Frontend/node_modules/
 Frontend/src/practices/
