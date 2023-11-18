@@ -53,7 +53,7 @@ public class WebSecurityConfig {
 			.and()
 			.authorizeRequests()
 			// '/images/**' is for image testing; it should be discarded after it's done.
-			.antMatchers("/", "/auth/**", "/oauth2/**", "/image/**", "/temp").permitAll()
+			.antMatchers("/", "/auth/**", "/oauth2/**", "/image/**").permitAll()
 			//.antMatchers("/", "/auth/**", "/oauth2/**", "/temp").permitAll()
 			.anyRequest()
 			.authenticated()
