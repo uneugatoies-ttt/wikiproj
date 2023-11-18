@@ -237,13 +237,13 @@ export async function editArticle(articleDTO: ArticleDTO) {
 
 // FILE HANDLING RELATED BEGINS
 export interface FileDTO {
-    filename: string,
+    fileName: string,
     uploader: string,
     fileType: string,
     description?: string
     createdAt?: Date,
     id?: number,
-    wikiname?: string,
+    usedInThisWiki?: string,
 }
 
 export async function insertImage(formData: FormData) {
@@ -253,14 +253,15 @@ export async function insertImage(formData: FormData) {
             throw new Error(`Image request failed with status: ${response.status}`);
         }
         console.log('File uploaded successfully', response);
+        return response;
     } catch (error) {
         console.error('Error uploading file', error);
     }
 }
 
-export async function fetchImage(imagePath: string) {
+export async function fetchImage(fileName: string, wikiName: string) {
     try {
-        const response = await fetch(API_BASE_URL + '/file/' + imagePath);
+        const response = await fetch(API_BASE_URL + `/file?fileName=${encodeURIComponent(fileName)}&wikiName=${encodeURIComponent(wikiName)}`, { method: 'GET' });
         if (!response.ok) {
             throw new Error(`Image request failed with status: ${response.status}`);
         }
@@ -272,16 +273,16 @@ export async function fetchImage(imagePath: string) {
     }
 }
 
-export async function isFilenamePresent(filename: string): Promise<boolean> {
+export async function isFileNamePresent(fileName: string, wikiName: string): Promise<boolean> {
     try {
-        const response = await fetch(API_BASE_URL + `/file/presence?filename=${encodeURIComponent(filename)}`, { method: 'GET' });
+        const response = await fetch(API_BASE_URL + `/file/presence?fileName=${encodeURIComponent(fileName)}&wikiName=${encodeURIComponent(wikiName)}`, { method: 'GET' });
         if (!response.ok) {
             throw new Error(`Image request failed with status: ${response.status}`);
         }
         const result = await response.json();
         return result;
     } catch (error) {
-        console.error('Error with using isFilenamePresent(): ', error);
+        console.error('Error with using isFileNamePresent(): ', error);
         throw error;
     }
 }

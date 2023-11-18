@@ -194,9 +194,6 @@ const MenuBar = ({
             handleClose={() => setOpenChooseImage(false)}
             editor={editor}
           />
-
-
-
           
           <ToggleButton 
             onClick={() => editor.chain().focus().setHardBreak().run()}

@@ -10,11 +10,13 @@ import {
     RadioGroup,
     FormControlLabel,
     Radio,
+    Typography
 } from '@mui/material';
 
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
-import { isFilenamePresent, FileDTO, insertImage } from '../../../services/ApiService';
+import { isFileNamePresent, FileDTO, insertImage } from '../../../services/ApiService';
+import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 
 export default function ChooseFile({
     open,
@@ -25,49 +27,72 @@ export default function ChooseFile({
 }) {
     const [file, setFile] = React.useState<File | null>(null);
     const [selectedOption, setSelectedOption] = React.useState('image');
+    const [uploadProgress, setUploadProgress] = React.useState<ReactJSXElement | null>(null);
+    const [beingProgressed, setBeingProgressed] = React.useState('initial');
+
+    React.useEffect(() => {
+        if (beingProgressed !== 'initial') {
+            uploadProgressConfig();
+        }
+    }, [beingProgressed]);
 
     const onButtonClick = async () => {
-        const filename = (document.getElementById('filename') as HTMLInputElement)?.value;
+        const fileName = (document.getElementById('fileName') as HTMLInputElement)?.value;
+        const usedInThisWiki = window.location.pathname.split('/')[2];
+        console.log(fileName, usedInThisWiki);
 
-        console.log(filename);
-
-        if (filename) {
+        if (fileName && usedInThisWiki) {
             try {
-                const isPresent = await isFilenamePresent(filename);
+                const isPresent = await isFileNamePresent(fileName, usedInThisWiki);
 
                 if (isPresent) {
-                    console.log('Filename already exists');
+                    console.log('FileName already exists');
                 } else {
                     //const fileInput = document.getElementById('fileInput') as HTMLInputElement;
                     //const file = fileInput.files?.[0];
                         
                     const uploader = localStorage.getItem('USERNAME');
-                    const description = document.getElementById('description')?.nodeValue?.toString();
-                    const fileType = document.getElementById('fileType')?.nodeValue?.toString();
-                    const wikiname = window.location.pathname.split('/')[1];
+                    const description = (document.getElementById('description') as HTMLInputElement)?.value;
+                    const fileType = selectedOption;
+
+
+                    console.log(file);
+                    console.log(uploader);
+                    console.log(description);
+                    console.log(fileType);
+                    console.log(usedInThisWiki);
         
-                    if (file && uploader && description && fileType && wikiname) {
+                    if (file && uploader && description && fileType) {
                         const formData = new FormData();
                         formData.append('file', file);
                         
                         const fileDTO: FileDTO = {
-                            filename: filename,
+                            fileName: fileName,
                             uploader: uploader,
                             description: description,
                             fileType: fileType,
-                            wikiname: wikiname,
+                            usedInThisWiki: usedInThisWiki,
                         }
         
                         formData.append('fileDTO', new Blob([JSON.stringify(fileDTO)], { type: 'application/json' }));
         
                         console.log(formData);
 
-                        //insertImage(formData);
+                        setBeingProgressed('true');
+                        
+                        const result = await insertImage(formData);
 
-                        handleClose();
+                        console.log(result);
+                        console.log(`it's over`);
+                        setBeingProgressed('false');
+
                         setTimeout(() => {
-                            setFile(null);
-                        }, 300);
+                            handleClose();
+                            setTimeout(() => {
+                                setFile(null);
+                                setUploadProgress(null);
+                            }, 300);
+                        }, 1800);
                     } else {
                         console.error('No file selected');
                     }
@@ -77,7 +102,7 @@ export default function ChooseFile({
             }
             
         } else {
-            console.error('Error with filename');
+            console.error('Error with fileName');
         }
     }
 
@@ -95,6 +120,27 @@ export default function ChooseFile({
                 lazyLoadImage.loading = 'eager';
             }
         }
+    }
+
+    const uploadProgressConfig = () => {
+        if (beingProgressed === 'true') {
+            setUploadProgress( 
+                <Grid>
+                    <Typography color="grey">
+                        UPLOAD BEING PROGRESSED...                            
+                    </Typography>
+                </Grid>
+            );
+        } else {
+            setUploadProgress(
+                <Grid>
+                    <Typography color="blue">
+                        UPLOAD COMPLETE!
+                    </Typography>
+                </Grid>
+            );
+        }
+
     }
 
     return (
@@ -144,25 +190,25 @@ export default function ChooseFile({
 
                     <Grid>
                         <TextField 
-                            id="filename"
+                            id="fileName"
                             style={{ marginTop: 15 }}
                             fullWidth
                             label="Name for This File"
                             required
-                            name="filename"
-                            autoFocus
+                            name="fileName"
                         />
                     </Grid>
 
-                    <TextField
-                        style={{ marginTop: 15 }}
-                        fullWidth
-                        label="Description for This File"
-                        required
-                        name="alt"
-                        id="description"
-                        autoFocus
-                    />
+                    <Grid>
+                        <TextField
+                            style={{ marginTop: 15 }}
+                            fullWidth
+                            label="Description for This File"
+                            required
+                            name="alt"
+                            id="description"
+                        />
+                    </Grid>
 
                     <Grid item xs={12}>
                         <RadioGroup
@@ -184,7 +230,7 @@ export default function ChooseFile({
                             {/* maybe I will implement videos and other things like executables */}
                         </RadioGroup>
                     </Grid>
-
+                    {uploadProgress}
                 </DialogContent>
 
                 <DialogActions>
