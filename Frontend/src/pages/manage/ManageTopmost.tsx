@@ -4,7 +4,6 @@ import FileResource from './FileResource';
 
 function ManageTopmost() {
     const [action, setAction] = React.useState('resource');
-    const [articleData, setArticleData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
@@ -13,7 +12,9 @@ function ManageTopmost() {
         const actionParam = params.get('action');
         if (actionParam) {
            setAction(actionParam);
+            
         }
+        setLoading(false);
     }, []);
 
     if (loading) {

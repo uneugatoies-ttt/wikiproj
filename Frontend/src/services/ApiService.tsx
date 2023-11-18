@@ -1,5 +1,21 @@
 import { API_BASE_URL } from '../config/api-config';
 
+import axios from 'axios';
+
+/* NOTE/TODO
+    -> 'response'를 await로 받고 거기서 then()을 call하는 대신 다음 코드를 사용 가능하다:
+    const result: ArticleDTO = await call('/article', 'PUT', articleDTO);
+    if (result.articleId) {
+        console.log(result);
+    }
+    IWAAIL.
+
+    -> .then()과 .catch는 비동기 연산이 모두 종료되어 'fulfilled'나 'rejected'의
+    상태가 된 시점을 나타낸다. 'await' 또한 비동기 연산이 모두 종료되는 시점을 처리한다.
+    그러므로 'await'을 사용해서 call한 function의 return value에서 다시 .then이나
+    .catch를 call하는 것은 완전히 무의미하며, 이것은 오류를 발생시킨다는 것을 명심하도록 한다.
+*/
+
 export async function call(api: string, method: string, request: { [key: string]: any } | null) {
     try {
         const headers = new Headers({'Content-Type': 'application/json'});
@@ -45,14 +61,13 @@ export interface UserDTO {
 
 export async function signin(userDTO: UserDTO) {
     try {
-        const response = await call('/auth/signin', 'GET', userDTO);
-        response.then((result: UserDTO) => {
-            if (result.id && result.token && result.username) {
-                localStorage.setItem("ACCESS_TOKEN", result.token);
-                localStorage.setItem("USERNAME", result.username);
-                window.location.href = '/';
-            }
-        })
+        const result = await call('/auth/signin', 'POST', userDTO);
+
+        if (result.id && result.token && result.username) {
+            localStorage.setItem("ACCESS_TOKEN", result.token);
+            localStorage.setItem("USERNAME", result.username);
+            window.location.href = '/';
+        }
     } catch (error) {
         console.error('Error with using signin()', error);
         throw error;
@@ -68,12 +83,11 @@ export function signout() {
 
 export async function signup(userDTO: UserDTO) {
     try {
-        const response = await call("/auth/regi", "POST", userDTO);
-        response.then((result: UserDTO) => {
-            if (result.id && result.username) {
-                window.location.href = '/login';
-            }
-        });
+        const result = await call("/auth/regi", "POST", userDTO);
+
+        if (result.id && result.username) {
+            window.location.href = '/login';
+        }
     } catch (error) {
         console.error('Error with using signup()', error);
         throw error;
@@ -136,12 +150,11 @@ export async function createWiki(wikiDTO: WikiAndWikiDraftDTO) {
 // WIKI DRAFT RELATED BEGINS
 export async function createWikiDraft(wikiDraftDTO: WikiAndWikiDraftDTO) {
     try {
-        const response = await call('/wiki/draft', 'POST', wikiDraftDTO);
-        response.then((result: WikiAndWikiDraftDTO) => {
-            if (result.wikiCandidateId) {
-                // What should I write at this?
-            }
-        });
+        const result = await call('/wiki/draft', 'POST', wikiDraftDTO);
+
+        if (result.wikiCandidateId) {
+            // What should I write?
+        }
     } catch (error) {
         console.error('Error with using createWikiDraft():', error);
         throw error;
@@ -150,10 +163,8 @@ export async function createWikiDraft(wikiDraftDTO: WikiAndWikiDraftDTO) {
 
 export async function fetchWikiDrafts() {
     try {
-        const response = await call('/wiki/draft', 'GET', null);
-        response.then((result: WikiAndWikiDraftDTO[]) => {
-            return result;
-        })
+        const result = await call('/wiki/draft', 'GET', null);
+        return result;
     } catch (error) {
         console.error('Error with using fetchWikiDrafts():', error);
         throw error;
@@ -162,12 +173,10 @@ export async function fetchWikiDrafts() {
 
 export async function deleteWikiDraft(id: number) {
     try {
-        const response = await call('/wiki/draft', 'DELETE', { id });
-        response.then((result: { data: string }[]) => {
-            if (result[0] && result[0].data === 'Deletion Complete') {
-                console.log(result[0].data);
-            }
-        })
+        const result = await call('/wiki/draft', 'DELETE', { id });
+        if (result[0] && result[0].data === 'Deletion Complete') {
+            console.log(result[0].data);
+        }
     } catch (error) {
         console.error('Error with using deleteWikiDraft():', error);
         throw error;
@@ -189,12 +198,11 @@ export interface ArticleDTO {
 
 export async function selectArticleByWikinameAndTitle(wikiname: string, title: string) {
     try {
-        const response = await call('/article/select-by-wt?wikiname=' + wikiname + '&title=' + title, 'GET', null);
-        response.then((result: ArticleDTO) => {
-            if (result.articleId) {
-                return result;
-            }
-        });
+        const result = await call('/article/select-by-wt?wikiname=' + wikiname + '&title=' + title, 'GET', null);
+        
+        if (result.articleId) {
+            return result;
+        }
     } catch (error) {
         console.error('Error with using selectArticleByWikinameAndArticle():', error);
         throw error;
@@ -203,12 +211,11 @@ export async function selectArticleByWikinameAndTitle(wikiname: string, title: s
 
 export async function insertArticle(articleDTO: ArticleDTO) {
     try {
-        const response = await call('/article', 'POST', articleDTO);
-        response.then((result: ArticleDTO) => {
-            if (result.articleId) {
-                console.log(result);
-            }
-        });
+        const result = await call('/article', 'POST', articleDTO);
+        
+        if (result.articleId) {
+            console.log(result);
+        }
     } catch (error) {
         console.error('Error with using insertArticle():', error);
         throw error;
@@ -217,12 +224,10 @@ export async function insertArticle(articleDTO: ArticleDTO) {
 
 export async function editArticle(articleDTO: ArticleDTO) {
     try {
-        const response = await call('/article', 'PUT', articleDTO);
-        response.then((result: ArticleDTO) => {
-            if (result.articleId) {
-                console.log(result);
-            }
-        });
+        const result = await call('/article', 'PUT', articleDTO);
+        if (result.articleId) {
+            console.log(result);
+        }
     } catch (error) {
         console.error('Error with using editArticle():', error);
         throw error;    
@@ -230,18 +235,32 @@ export async function editArticle(articleDTO: ArticleDTO) {
 }
 // ARTICLE RELATED ENDS
 
-// IMAGE HANDLING RELATED BEGINS
-export async function insertImage() {
-    try {
+// FILE HANDLING RELATED BEGINS
+export interface FileDTO {
+    filename: string,
+    uploader: string,
+    fileType: string,
+    description?: string
+    createdAt?: Date,
+    id?: number,
+    wikiname?: string,
+}
 
+export async function insertImage(formData: FormData) {
+    try {
+        const response = await axios.post(API_BASE_URL + '/file', formData);
+        if (!response || response.status.toString()[0] !== '2') {
+            throw new Error(`Image request failed with status: ${response.status}`);
+        }
+        console.log('File uploaded successfully', response);
     } catch (error) {
-        console.error('')
+        console.error('Error uploading file', error);
     }
 }
 
 export async function fetchImage(imagePath: string) {
     try {
-        const response = await fetch(API_BASE_URL + '/image/' + imagePath);
+        const response = await fetch(API_BASE_URL + '/file/' + imagePath);
         if (!response.ok) {
             throw new Error(`Image request failed with status: ${response.status}`);
         }
@@ -252,5 +271,18 @@ export async function fetchImage(imagePath: string) {
         return null;
     }
 }
-// IMAGE HANDLING RELATED ENDS
 
+export async function isFilenamePresent(filename: string): Promise<boolean> {
+    try {
+        const response = await fetch(API_BASE_URL + `/file/presence?filename=${encodeURIComponent(filename)}`, { method: 'GET' });
+        if (!response.ok) {
+            throw new Error(`Image request failed with status: ${response.status}`);
+        }
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Error with using isFilenamePresent(): ', error);
+        throw error;
+    }
+}
+// FILE HANDLING RELATED ENDS
