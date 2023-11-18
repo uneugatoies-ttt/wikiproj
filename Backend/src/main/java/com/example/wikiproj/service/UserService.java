@@ -44,8 +44,11 @@ public class UserService {
 	
 			final String username = userEntity.getUsername();
 			
+			
+			System.out.println("existsByUsername begins\n");
 			if (userRepository.existsByUsername(username))
 				throw new RuntimeException("Username already exists");
+			System.out.println("\nexistsByUsername ends\n");
 			
 			return userRepository.save(userEntity);
 		} catch (Exception e) {

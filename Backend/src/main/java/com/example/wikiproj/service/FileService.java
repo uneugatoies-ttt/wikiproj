@@ -10,47 +10,62 @@ import com.example.wikiproj.persistence.FileRepository;
 import com.example.wikiproj.persistence.UserRepository;
 import com.example.wikiproj.persistence.WikiRepository;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
 @Service
-@NoArgsConstructor
-@AllArgsConstructor
 public class FileService {
 	
 	private FileRepository fileRepository;
 	private UserRepository userRepository;
 	private WikiRepository wikiRepository;
-
-	public FileDTO insertNewFile(FileDTO fileDTO, String filePath) {
-		User uploader = userRepository.findByUsername(fileDTO.getUploader());
-		Wiki usedInThisWiki = wikiRepository.findByWikiname(fileDTO.getUsedInThisWiki());
-		
-		File fileEntity = File.builder()
-							.filename(fileDTO.getFilename())
-							.uploader(uploader)
-							.usedInThisWiki(usedInThisWiki)
-							.description(fileDTO.getDescription())
-							.filePath(filePath)
-							.fileType(fileDTO.getFileType())
-							.build();
-		File storedFileEntity = fileRepository.save(fileEntity);
-		
-		FileDTO storedFileDTO = FileDTO.builder()
-									.filename(storedFileEntity.getFilename())
-									.uploader(storedFileEntity.getUploader().getUsername())
-									.usedInThisWiki(storedFileEntity.getUsedInThisWiki().getWikiname())
-									.description(storedFileEntity.getDescription())
-									.createdAt(storedFileEntity.getCreatedAt())
-									.id(storedFileEntity.getId())
-									.fileType(storedFileEntity.getFileType())
-									.build();
-		
-		return storedFileDTO;
+	
+	public FileService(
+		FileRepository fileRepository,
+		UserRepository userRepository,
+		WikiRepository wikiRepository
+	) {
+		this.fileRepository = fileRepository;
+		this.userRepository = userRepository;
+		this.wikiRepository = wikiRepository;
 	}
 
-	public boolean isFilenamePresent(String filename) {
-		return fileRepository.existsByFilename(filename);
+	public FileDTO insertNewFile(FileDTO fileDTO, String filePath) {
+		try {
+			User uploader = userRepository.findByUsername(fileDTO.getUploader());
+			Wiki usedInThisWiki = wikiRepository.findByWikiname(fileDTO.getUsedInThisWiki().replace('-', ' '));
+			
+			File fileEntity = File.builder()
+								.fileName(fileDTO.getFileName())
+								.uploader(uploader)
+								.usedInThisWiki(usedInThisWiki)
+								.description(fileDTO.getDescription())
+								.filePath(filePath)
+								.fileType(fileDTO.getFileType())
+								.build();
+			File storedFileEntity = fileRepository.save(fileEntity);
+			
+			FileDTO storedFileDTO = FileDTO.builder()
+										.fileName(storedFileEntity.getFileName())
+										.uploader(storedFileEntity.getUploader().getUsername())
+										.usedInThisWiki(storedFileEntity.getUsedInThisWiki().getWikiname())
+										.description(storedFileEntity.getDescription())
+										.createdAt(storedFileEntity.getCreatedAt())
+										.id(storedFileEntity.getId())
+										.fileType(storedFileEntity.getFileType())
+										.build();
+			
+			return storedFileDTO;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	public boolean isFileNamePresent(String fileName, String wikiName) {
+		try {
+			Wiki usedInThisWiki = wikiRepository.findByWikiname(wikiName.replace('-', ' '));
+			boolean presence = fileRepository.existsByFileNameAndUsedInThisWiki(fileName, usedInThisWiki);
+			return presence;
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 }

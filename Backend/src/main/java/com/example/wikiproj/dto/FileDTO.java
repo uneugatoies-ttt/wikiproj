@@ -15,7 +15,7 @@ public class FileDTO {
 	
 	private Long id;
 	
-	private String filename;
+	private String fileName;
 	
 	private String uploader;
 	

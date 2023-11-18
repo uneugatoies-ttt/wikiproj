@@ -4,11 +4,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,10 +39,20 @@ public class FileController {
 		this.fileService = fileService;
 	}
 	
-	@GetMapping("/{name}")
-	public ResponseEntity<?> getFile(@PathVariable String filename) {
+	@GetMapping
+	public ResponseEntity<?> getFile(@RequestParam String fileName, @RequestParam String wikiName) {
 		try {
-			Resource fileResource = new ClassPathResource("static/" + filename);
+			String fileNameWithUnderBar = fileName.replace(' ', '_');
+			String wikiNameWithUnderBar = wikiName.replace('-', '_');
+			
+			Resource fileResource = 
+					new ClassPathResource(
+							"static" + 
+							File.separator +
+							wikiNameWithUnderBar +
+							File.separator +
+							fileNameWithUnderBar
+						);
 			if (fileResource.exists()) {
 				return ResponseEntity
 						.ok()
@@ -57,17 +67,30 @@ public class FileController {
 	
 	@PostMapping
 	public ResponseEntity<?> insertNewFile(
-			@RequestParam("file") MultipartFile file,
-			@RequestParam("fileDTO") String fileDTOJson
+			@RequestPart("file") MultipartFile file,
+			@RequestPart("fileDTO") String fileDTOJson
 	) {
 		if (file.isEmpty())
 			return ResponseEntity.badRequest().body("No file has been sent");
 		
 		try {
 			FileDTO fileDTO = new ObjectMapper().readValue(fileDTOJson, FileDTO.class);
-			
+			String fileNameWithUnderBar = fileDTO.getFileName().replace(' ', '_');
+			String wikiNameWithUnderBar = fileDTO.getUsedInThisWiki().replace('-', '_');
 			byte[] bytes = file.getBytes();
-			Path path = Paths.get(IMG_STORAGE_DIRECTORY + file.getOriginalFilename());
+			
+	        Path directoryPath = Paths.get(
+	                IMG_STORAGE_DIRECTORY + wikiNameWithUnderBar
+	        );
+
+	        // Create the directories if they don't exist
+	        Files.createDirectories(directoryPath);
+			
+			Path path = Paths.get(
+					directoryPath.toString() + File.separator +
+					fileNameWithUnderBar + "." +
+					extractFileExtension(file.getOriginalFilename())
+				);
 			Files.write(path, bytes);
 			
 			FileDTO storedFileDTO = fileService.insertNewFile(fileDTO, path.toString());
@@ -80,12 +103,24 @@ public class FileController {
 	}
 	
 	@GetMapping("/presence")
-	public ResponseEntity<?> isFilenamePresent(@RequestParam String filename) {
+	public ResponseEntity<?> isFileNamePresent(@RequestParam String fileName, @RequestParam String wikiName) {
 		try {
-			return ResponseEntity.ok().body(fileService.isFilenamePresent(filename));
+			String fileNameWithUnderBar = fileName.replace(' ', '_');
+			String wikiNameWithUnderBar = wikiName.replace('-', '_');
+			boolean presence = fileService.isFileNamePresent(fileNameWithUnderBar, wikiNameWithUnderBar);
+			
+			return ResponseEntity.ok().body(presence);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
+	}
+	
+	private String extractFileExtension(String filename) {
+	    int lastDotIndex = filename.lastIndexOf('.');
+	    if (lastDotIndex > 0) {
+	        return filename.substring(lastDotIndex + 1);
+	    }
+	    return ""; // there's no extension
 	}
 	
 }

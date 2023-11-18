@@ -20,6 +20,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/*
+	-> When being stored, the upper case letters in the wiki name must be replaced with lower case alphabets.
+*/
+
 @Entity
 @Getter
 @Setter

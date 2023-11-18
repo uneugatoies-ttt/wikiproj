@@ -20,11 +20,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /*
-	> 
- 
-
+	-> When being stored, the upper case letters in the article's title must be replaced with lower case alphabets.
 */
-
 
 @Entity
 @Getter
