@@ -46,11 +46,11 @@ jobs:
     - name: Grant permission for gradlew
       run: |
         cd Backend
-        ./gradlew wrapper --gradle-version=8.2.1
         chmod +x ./gradlew
 
     - name: Build and test
       run: |
         cd Backend
+        ./gradlew wrapper --gradle-version=8.2.1
         ./gradlew build
         ./gradlew test
