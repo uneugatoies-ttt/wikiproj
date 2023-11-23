@@ -27,6 +27,10 @@ function ManageTopmost() {
                 <FileResource />
             </div>
         );
+    } else {
+        return (<div>
+            NOTHING
+        </div>);
     }
 }
 

@@ -18,3 +18,4 @@ Backend/src/test/java/com/example/test/
 # Frontend
 Frontend/node_modules/
 Frontend/src/practices/
+Frontend/build/
