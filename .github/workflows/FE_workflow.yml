@@ -22,7 +22,11 @@ jobs:
         node-version: '16'
 
     - name: Install dependencies
-      run: npm install
+      run: |
+        cd Frontend
+        npm install
 
     - name: Build and test
-      run: npm run build
+      run: |
+        cd Frontend
+        npm run build
