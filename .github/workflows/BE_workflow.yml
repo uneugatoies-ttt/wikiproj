@@ -24,8 +24,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      with:
-        path: Backend
 
     - name: Set up JDK
       uses: actions/setup-java@v2
@@ -47,6 +45,6 @@ jobs:
 
     - name: Build and test
       run: |
-        cd Backend
         ./gradlew build
         ./gradlew test
+      working-directory: ./Backend
