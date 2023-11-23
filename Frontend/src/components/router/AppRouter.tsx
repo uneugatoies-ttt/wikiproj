@@ -12,8 +12,6 @@ import CreateArticle from '../../pages/article/create/CreateArticle';
 import WikidraftTopmost from '../../pages/wiki/WikidraftTopmost';
 import ManageTopmost from '../../pages/manage/ManageTopmost';
 
-import ImageFrameTest from '../../practices/ImageFrameTest';
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Typography, Box } from '@mui/material';
 
@@ -80,8 +78,6 @@ function AppRouter() {
                         path="/wiki/:wikiname/manage"
                         element={<ManageTopmost />}
                     />
-
-                    <Route path="/prac" element={<ImageFrameTest />} />
 
                 </Routes>
             </BrowserRouter>
