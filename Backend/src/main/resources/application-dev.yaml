@@ -4,8 +4,8 @@ spring:
       client:
         registration:
           github:
-            clientId: <CLIENT_ID>
-            clientSecret: <CLIENT_SECRET>
+            clientId: ${GH_CLIENT_ID}
+            clientSecret: ${GH_CLIENT_SECRET}
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - user:email
@@ -18,8 +18,8 @@ spring:
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3307/springboot
-    username: <USERNAME>
-    password: <PASSWORD>
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
