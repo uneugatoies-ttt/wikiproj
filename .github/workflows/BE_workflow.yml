@@ -43,8 +43,13 @@ jobs:
         echo "RDS_USERNAME=testuser" >> $GITHUB_ENV
         echo "RDS_PASSWORD=testpassword" >> $GITHUB_ENV
 
+    - name: Grant permission for gradlew
+      run: |
+        cd Backend
+        chmod +x ./gradlew
+
     - name: Build and test
       run: |
+        cd Backend
         ./gradlew build
         ./gradlew test
-      working-directory: ./Backend
