@@ -1,11 +1,12 @@
-package com.example.wikiproj.model;
+package com.example.wikiproj.domain;
+
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -24,28 +25,21 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Builder
-@Table(name = "file")
-public class File extends BaseEntity {
+@Table(name = "tag")
+public class Tag extends BaseEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String fileName;
+	private String tagName;
 	
-	@ManyToOne
-	@JoinColumn(name = "uploader")
-	private User uploader;
+	@OneToMany(mappedBy = "tag")
+	@ToString.Exclude
+	private List<ArticleTags> articleTag;
 	
-	@ManyToOne
-	@JoinColumn(name = "used_in_this_wiki")
-	private Wiki usedInThisWiki;
+	@OneToMany(mappedBy = "tag")
+	@ToString.Exclude
+	private List<RACTags> revisionAndContentTag;
 
-	private String filePath;
-	
-	private String description;
-	
-	private String fileType;
-	
-	
 }

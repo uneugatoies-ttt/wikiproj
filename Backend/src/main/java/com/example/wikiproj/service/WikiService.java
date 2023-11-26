@@ -3,11 +3,11 @@ package com.example.wikiproj.service;
 
 import org.springframework.stereotype.Service;
 
+import com.example.wikiproj.domain.User;
+import com.example.wikiproj.domain.UserWikiStatus;
+import com.example.wikiproj.domain.Wiki;
+import com.example.wikiproj.domain.WikiClass;
 import com.example.wikiproj.dto.WikiDTO;
-import com.example.wikiproj.model.User;
-import com.example.wikiproj.model.UserWikiStatus;
-import com.example.wikiproj.model.Wiki;
-import com.example.wikiproj.model.WikiClass;
 import com.example.wikiproj.persistence.UserRepository;
 import com.example.wikiproj.persistence.UserWikiStatusRepository;
 import com.example.wikiproj.persistence.WikiClassRepository;

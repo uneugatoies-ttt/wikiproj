@@ -2,10 +2,10 @@ package com.example.wikiproj.service;
 
 import org.springframework.stereotype.Service;
 
+import com.example.wikiproj.domain.File;
+import com.example.wikiproj.domain.User;
+import com.example.wikiproj.domain.Wiki;
 import com.example.wikiproj.dto.FileDTO;
-import com.example.wikiproj.model.File;
-import com.example.wikiproj.model.User;
-import com.example.wikiproj.model.Wiki;
 import com.example.wikiproj.persistence.FileRepository;
 import com.example.wikiproj.persistence.UserRepository;
 import com.example.wikiproj.persistence.WikiRepository;

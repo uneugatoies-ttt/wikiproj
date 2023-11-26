@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.wikiproj.domain.User;
+import com.example.wikiproj.domain.Wiki;
+import com.example.wikiproj.domain.WikiCandidate;
+import com.example.wikiproj.domain.WikiClass;
 import com.example.wikiproj.dto.WikiCandidateDTO;
-import com.example.wikiproj.model.User;
-import com.example.wikiproj.model.Wiki;
-import com.example.wikiproj.model.WikiCandidate;
-import com.example.wikiproj.model.WikiClass;
 import com.example.wikiproj.persistence.UserRepository;
 import com.example.wikiproj.persistence.WikiCandidateRepository;
 import com.example.wikiproj.persistence.WikiClassRepository;

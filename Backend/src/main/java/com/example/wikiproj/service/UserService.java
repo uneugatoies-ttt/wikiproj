@@ -3,7 +3,7 @@ package com.example.wikiproj.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.wikiproj.model.User;
+import com.example.wikiproj.domain.User;
 import com.example.wikiproj.persistence.UserRepository;
 
 @Service

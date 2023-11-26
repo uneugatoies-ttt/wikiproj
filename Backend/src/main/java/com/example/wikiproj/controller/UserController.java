@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.wikiproj.domain.User;
 import com.example.wikiproj.dto.ResponseDTO;
 import com.example.wikiproj.dto.UserDTO;
-import com.example.wikiproj.model.User;
 import com.example.wikiproj.security.TokenProvider;
 import com.example.wikiproj.service.UserService;
 

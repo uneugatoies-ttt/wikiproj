@@ -6,15 +6,15 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.wikiproj.domain.Article;
+import com.example.wikiproj.domain.ArticleCategories;
+import com.example.wikiproj.domain.ArticleTags;
+import com.example.wikiproj.domain.RACCategories;
+import com.example.wikiproj.domain.RACTags;
+import com.example.wikiproj.domain.RevisionAndContent;
+import com.example.wikiproj.domain.Wiki;
 import com.example.wikiproj.dto.ArticleDTO;
 import com.example.wikiproj.dto.RevisionDTO;
-import com.example.wikiproj.model.Article;
-import com.example.wikiproj.model.ArticleCategories;
-import com.example.wikiproj.model.ArticleTags;
-import com.example.wikiproj.model.RACCategories;
-import com.example.wikiproj.model.RACTags;
-import com.example.wikiproj.model.RevisionAndContent;
-import com.example.wikiproj.model.Wiki;
 import com.example.wikiproj.persistence.CategoryRepository;
 import com.example.wikiproj.persistence.RACCategoriesRepository;
 import com.example.wikiproj.persistence.RACTagsRepository;

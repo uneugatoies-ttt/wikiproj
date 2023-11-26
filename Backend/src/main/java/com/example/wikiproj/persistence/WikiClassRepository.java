@@ -2,7 +2,7 @@ package com.example.wikiproj.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.wikiproj.model.WikiClass;
+import com.example.wikiproj.domain.WikiClass;
 
 public interface WikiClassRepository extends JpaRepository<WikiClass, Long> {
 
