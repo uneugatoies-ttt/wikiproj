@@ -1,12 +1,7 @@
 import React from 'react';
 
-import {
-  mergeAttributes,
-} from '@tiptap/core';
 import { 
-  EditorProvider,
   useEditor,
-  Editor,
   EditorContent,
   ReactNodeViewRenderer,
 } from '@tiptap/react';
@@ -15,12 +10,13 @@ import ListItem from '@tiptap/extension-list-item';
 import TextStyle from '@tiptap/extension-text-style';
 import StarterKit from '@tiptap/starter-kit';
 import { Image } from '@tiptap/extension-image';
+import Link from '@tiptap/extension-link';
 
 import { Container } from '@mui/material';
 
 import MenuBar from './MenuBar';
 
-import ImageView from './Image/ImageView';
+import ImageView from './image/ImageView';
 
 import './tiptapStyles.scss';
 
@@ -38,6 +34,10 @@ const CustomImage = Image.extend({
   addNodeView() {
     return ReactNodeViewRenderer(ImageView);
   },
+});
+
+const CustomLink = Link.extend({
+
 });
 
 interface TiptapEditorProps {
@@ -65,6 +65,7 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
       },
     }),
     CustomImage,
+    CustomLink,
   ];
 
   // If the error that says something like "type undefined", then check the 'extensions' variable once again;

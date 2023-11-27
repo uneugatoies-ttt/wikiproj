@@ -117,14 +117,3 @@ export default function ChooseImage({
         </Dialog>
     )
 }
-
-/*
-
-                    <Fade in={true}>
-                        <Alert severity="warning" sx={{ mb: 2}}>
-                            INPUT DATA NEEDED
-                        </Alert>
-                    </Fade>
-
-
-*/

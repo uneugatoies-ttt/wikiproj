@@ -22,11 +22,13 @@ import {
   Code,
   Highlight,
   Image,
+  Link,
 } from '@mui/icons-material';
 
 import ParagraphHeadingDropdown from './ParagraphHeadingDropdown';
 
-import ChooseImage from './Image/ImageInput';
+import ChooseImage from './image/ChooseImage';
+import ChooseLink from './link/ChooseLink';
 
 /* NOTE/TODO
   -> I can't remember where the prop 'intoHtml' was being used. IWAAIL
@@ -47,6 +49,7 @@ const MenuBar = ({
   editor: Editor | null, 
 }) => {
   const [openChooseImage, setOpenChooseImage] = React.useState(false);
+  const [openChooseLink, setOpenChooseLink] = React.useState(false);
 
   if (!editor) {
     return null;
@@ -194,7 +197,21 @@ const MenuBar = ({
             handleClose={() => setOpenChooseImage(false)}
             editor={editor}
           />
-          
+
+          <ToggleButton
+            onClick={() => setOpenChooseLink(true)}
+            className={editor.isActive('link') ? 'is-active' : ''}
+            value={`what value should be given?`}
+          >
+            <Link/>
+          </ToggleButton>
+
+          <ChooseLink
+            open={openChooseLink}
+            handleClose={() => setOpenChooseLink(false)}
+            editor={editor}
+          />
+
           <ToggleButton 
             onClick={() => editor.chain().focus().setHardBreak().run()}
             value={`what value should be given?`}

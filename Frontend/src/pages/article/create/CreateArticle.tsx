@@ -81,7 +81,6 @@ const CreateArticlePractice = () => {
                     content={content} 
                     creationFlag={creationFlag}
                     createNewArticle={createNewArticle}
-                    
                 />
                 
                 <Button
