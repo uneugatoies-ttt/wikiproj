@@ -11,8 +11,10 @@ Backend/.metadata/
 Backend/src/main/resources/application-dev2.yaml
 Backend/src/main/resources/application.yml
 Backend/src/main/resources/static/
+
 Backend/src/main/java/com/example/wikiproj/security/secret-key.txt
 Backend/src/main/java/com/example/wikiproj/practice/
+
 Backend/src/test/java/com/example/test/
 
 # Frontend
