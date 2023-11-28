@@ -1,6 +1,6 @@
 import React from 'react';
-import '../../index.css';
-import App from '../../App';
+
+import Main from '../../pages/main/Main';
 
 import SignUp from '../../pages/auth/SignUp';
 import Login from '../../pages/auth/Login';
@@ -13,7 +13,11 @@ import WikidraftTopmost from '../../pages/wiki/WikidraftTopmost';
 import ManageTopmost from '../../pages/manage/ManageTopmost';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Typography, Box } from '@mui/material';
+import {
+  Typography,
+  Box,
+} from "@mui/material";
+
 
 function Copyright() {
     return (
@@ -43,17 +47,16 @@ function Copyright() {
 
 function AppRouter() {
     return (
-        <div>
+        <div className="App">
             <BrowserRouter>
                 <Routes>
-
-                    <Route path="/" element={<App />} />
-
+                    <Route path="/" element={<Main />} />
+    
                     {/*These should be consolidated into <AuthTopmost> in the later time*/}
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/sociallogin" element={<SocialLogin />} />
-
+    
                     <Route
                         path="/wikidraft"
                         element={<WikidraftTopmost />}
@@ -63,7 +66,7 @@ function AppRouter() {
                         path="/adm"
                         element={<AdminTopmost />}
                     />
-
+    
                     <Route
                         path="/wiki/:wikiname/create-new"
                         element={<CreateArticle /> }
@@ -73,19 +76,18 @@ function AppRouter() {
                         path="/wiki/:wikiname/:arti"
                         element={<ArticleTopmost />}
                     />
-
+    
                     <Route 
                         path="/wiki/:wikiname/manage"
                         element={<ManageTopmost />}
                     />
-
                 </Routes>
             </BrowserRouter>
             <Box mt={5}>
                 <Copyright />
             </Box>
         </div>
-    )
+    );
 }
 
 export default AppRouter;

@@ -15,7 +15,7 @@ import {
 
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
-import { isFileNamePresent, FileDTO, insertImage } from '../../../services/ApiService';
+import { isFileNamePresent, FileDTO, insertImage } from '../../../components/services/ApiService';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 
 export default function ChooseFile({

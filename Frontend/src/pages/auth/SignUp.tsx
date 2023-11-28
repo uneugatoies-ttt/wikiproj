@@ -1,6 +1,6 @@
 import React, { FormEvent } from 'react';
 import { Container, Grid, Typography, TextField, Button } from '@mui/material';
-import { signup, UserDTO } from '../../services/ApiService';
+import { signup } from '../../components/services/ApiService';
 import { Link } from 'react-router-dom';
 
 function SignUp() {

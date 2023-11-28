@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '../config/api-config';
+import { API_BASE_URL } from '../../config/api-config';
 
 import axios from 'axios';
 
@@ -10,7 +10,7 @@ import axios from 'axios';
     }
     IWAAIL.
 
-    -> .then()과 .catch는 비동기 연산이 모두 종료되어 'fulfilled'나 'rejected'의
+    -> .then()과 .catch()는 비동기 연산이 모두 종료되어 'fulfilled'나 'rejected'의
     상태가 된 시점을 나타낸다. 'await' 또한 비동기 연산이 모두 종료되는 시점을 처리한다.
     그러므로 'await'을 사용해서 call한 function의 return value에서 다시 .then이나
     .catch를 call하는 것은 완전히 무의미하며, 이것은 오류를 발생시킨다는 것을 명심하도록 한다.
@@ -49,6 +49,8 @@ export async function call(api: string, method: string, request: { [key: string]
         throw error;
     }
 };
+
+
 
 // USER AUTH/REGI RELATED BEGINS
 export interface UserDTO {
@@ -114,6 +116,8 @@ export function socialLogin(provider: string) {
     window.location.href = API_BASE_URL + "/auth/authorize/"  + provider + "?redirect_uri=" + frontend_url;
 }
 // USER AUTH/REGI RELATED ENDS
+
+
 
 // WIKI RELATED BEGINS
 export interface WikiAndWikiDraftDTO {

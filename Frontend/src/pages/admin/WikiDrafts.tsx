@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, List } from '@mui/material';
 
-import { createWiki, deleteWikiDraft, fetchWikiDrafts, WikiAndWikiDraftDTO } from '../../services/ApiService';
+import { createWiki, deleteWikiDraft, fetchWikiDrafts, WikiAndWikiDraftDTO } from '../../components/services/ApiService';
 import Drafts from './Drafts';
 
 function WikiDrafts() {

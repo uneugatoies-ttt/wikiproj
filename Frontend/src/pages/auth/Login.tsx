@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Grid, Typography, TextField, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { signin, socialLogin } from '../../services/ApiService';
+import { signin, socialLogin } from '../../components/services/ApiService';
 
 function Login() {
     const [formData, setFormData] = React.useState({ username: '', password: '' });

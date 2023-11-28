@@ -8,7 +8,7 @@ import {
     Radio,
     FormControlLabel
 } from '@mui/material';
-import { createWikiDraft } from '../../services/ApiService';
+import { createWikiDraft } from '../../components/services/ApiService';
 
 function CreateWikiDraft() {
     const [selectedOption, setSelectedOption] = React.useState('option1');

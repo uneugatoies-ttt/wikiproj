@@ -1,7 +1,7 @@
 import React from 'react';
 import Articles from './display/Articles';
 import EditArticles from './edit/EditArticles';
-import { ArticleDTO, selectArticleByWikinameAndTitle } from '../../services/ApiService';
+import { ArticleDTO, selectArticleByWikinameAndTitle } from '../../components/services/ApiService';
 import { useParams } from 'react-router-dom';
 
 /* NOTE/TODO

@@ -6,7 +6,7 @@ import {
     IconButton
 } from '@mui/material';
 
-import { createWiki, WikiAndWikiDraftDTO } from '../../services/ApiService';
+import { createWiki, WikiAndWikiDraftDTO } from '../../components/services/ApiService';
 
 /*
     This component is for displaying the current drafts in the queue,
