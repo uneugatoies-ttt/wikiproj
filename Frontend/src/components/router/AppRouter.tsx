@@ -32,8 +32,6 @@ function Copyright() {
 };
 
 /*
-    -> About dynamic routing: https://reactrouter.com/en/main/route/route
-
     -> I would continue building the app with routing that works as follows:
         -> One <Route> is only assigned to the top-most component of a group of components,
         which are encompassed by their certain functionalities such as handling articles.

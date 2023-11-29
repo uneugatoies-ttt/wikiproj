@@ -80,7 +80,7 @@ export async function signin(userDTO: UserDTO) {
 export function signout() {
     localStorage.removeItem("ACCESS_TOKEN");
     localStorage.removeItem("USERNAME");
-    window.location.href = '/login';
+    //window.location.href = '/login';
 }
 
 export async function signup(userDTO: UserDTO) {
