@@ -1,17 +1,10 @@
 import React from 'react';
-import { NodeViewWrapper, NodeViewRendererProps } from '@tiptap/react';
+import { NodeViewWrapper } from '@tiptap/react';
 
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-import LazyLoadImage from 'react-lazy-load-image-component';
-
 const ImageView = ({ node, updateAttributes }: any) => {
-    const handleClick = () => {
-        console.log('Image Clicked:', node.attrs.src);
-    };
-
 
     return (
         <NodeViewWrapper
@@ -48,46 +41,6 @@ const ImageView = ({ node, updateAttributes }: any) => {
             </Container>
         </NodeViewWrapper>
     );
-
-
-
-    /*
-    return (
-        <NodeViewWrapper
-            className="react-component-content draggable-item "
-            data-type="draggable-item"
-            draggable="true"
-            data-drag-handle
-            
-        >
-            <div
-                style={{ 
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}
-            >
-                <div 
-                     
-                    style={{ 
-                        padding: '10px', textAlign: 'center',
-                        width: '400px',
-                        height: '400px', 
-                    }}
-                >
-                    <div 
-                        onClick={handleClick}
-                        
-                    >
-                        <img src={node.attrs.src} alt={node.attrs.alt} />
-                    </div>
-                    <div>
-                        {node.attrs.alt}
-                    </div>
-                </div>
-            </div>
-        </NodeViewWrapper>
-    )*/
 }
 
 export default ImageView;
