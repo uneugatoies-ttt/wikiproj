@@ -63,7 +63,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/regi")
-	public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
+	public ResponseEntity<?> userRegister(@RequestBody UserDTO userDTO) {
 		try {
 			if (userDTO == null || userDTO.getPassword() == null) {
 				throw new RuntimeException("invalid password");
