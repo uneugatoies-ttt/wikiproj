@@ -7,7 +7,7 @@ import Container from '@mui/material/Container';
 
 import LazyLoadImage from 'react-lazy-load-image-component';
 
-const CustomImageView = ({ node, updateAttributes }: any) => {
+const ImageView = ({ node, updateAttributes }: any) => {
     const handleClick = () => {
         console.log('Image Clicked:', node.attrs.src);
     };
@@ -90,4 +90,4 @@ const CustomImageView = ({ node, updateAttributes }: any) => {
     )*/
 }
 
-export default CustomImageView;
+export default ImageView;

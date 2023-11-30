@@ -9,7 +9,6 @@ export default function NavigationBar() {
             localStorage.getItem('USERNAME')
         ) ? true : false);
     
-    
     const login = () => {
         window.location.href = '/login';
     }
@@ -33,7 +32,6 @@ export default function NavigationBar() {
         >
             <Toolbar
                 style={{
-                    
                     minWidth: '300px',
                     maxWidth: '1500px',
                 }}  
