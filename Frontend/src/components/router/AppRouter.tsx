@@ -13,23 +13,6 @@ import WikidraftTopmost from '../../pages/wiki/WikidraftTopmost';
 import ManageTopmost from '../../pages/manage/ManageTopmost';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import {
-  Typography,
-  Box,
-} from "@mui/material";
-
-
-function Copyright() {
-    return (
-        <div>
-            <Typography variant="body2" color="textSecondary" align="center">
-                {"NOT Copyrighted @ "}
-                Uneugatoies, {new Date().getFullYear()}
-                {"."}
-            </Typography>
-        </div>
-    )
-};
 
 /*
     -> I would continue building the app with routing that works as follows:
@@ -81,9 +64,6 @@ function AppRouter() {
                     />
                 </Routes>
             </BrowserRouter>
-            <Box mt={5}>
-                <Copyright />
-            </Box>
         </div>
     );
 }

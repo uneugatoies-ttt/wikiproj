@@ -1,13 +1,19 @@
 import '../../App.css';
 import React, { useEffect, useState } from 'react';
-import { Container } from '@mui/system';
-import { List, Typography } from '@mui/material';
-import { Button } from '@mui/base';
+import { List, Typography, Button, Container, Box, Grid } from '@mui/material';
 import NavigationBar from '../../components/design/NavigationBar';
+import Footer from '../../components/design/Footer';
 
 export default function Main() {
+  /*
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  let loadingPage = <h1> ...Now Loading... </h1>;
+  let content = loadingPage;
+    
+  if (!loading) {
+    content = loadDone;
+  }
 
   const loadDone = (
     <div>
@@ -26,20 +32,57 @@ export default function Main() {
         </Button>
       </Container>
     </div>
-  );
+  );*/
 
-  let loadingPage = <h1> ...Now Loading... </h1>;
-  let content = loadingPage;
-    
-  if (!loading) {
-    content = loadDone;
-  }
+  const content = (
+    <Container>
+
+      <Grid 
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{
+          marginTop: '80px',
+        }}
+      >
+        <Typography 
+          fontSize={40}
+          style={{
+            maxWidth: '600px',
+          }}
+        >
+          "Create your own wiki about the world you've been dreaming of."
+        </Typography>
+      </Grid>
+
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{
+          marginTop: '50px',
+        }}
+      >
+        <Button
+          style={{
+            backgroundColor: "#F7FAFF",
+            width: '300px',
+            height: '50px',
+          }}
+        >
+          Start a New Wiki
+        </Button>
+      </Grid>
+    </Container>
+  )
 
   return (
     <div>
       <NavigationBar/>
-      sdfsdfsdf
+        {content}
+      <Box mt={5}>
+          <Footer />
+      </Box>
     </div>
   )
-
 }
