@@ -10,7 +10,7 @@ import com.example.wikiproj.persistence.UserRepository;
 public class UserService {
 	
 	private UserRepository userRepository;
-	
+
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
@@ -41,15 +41,9 @@ public class UserService {
 		try {
 			if (userEntity == null || userEntity.getUsername() == null)
 				throw new RuntimeException("Invalid arguments");
-	
 			final String username = userEntity.getUsername();
-			
-			
-			System.out.println("existsByUsername begins\n");
 			if (userRepository.existsByUsername(username))
 				throw new RuntimeException("Username already exists");
-			System.out.println("\nexistsByUsername ends\n");
-			
 			return userRepository.save(userEntity);
 		} catch (Exception e) {
 			throw e;

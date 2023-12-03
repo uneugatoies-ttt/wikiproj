@@ -1,6 +1,5 @@
 package com.example.wikiproj.controller;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,13 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -57,8 +49,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 	the behavior of the service methods.
 	
 	BUT THIS IS NOT FULLY CONFIRMED YET. IWAAIL
-	
-	-> 
+
 */
 
 @WebMvcTest(UserController.class)
@@ -94,9 +85,9 @@ public class UserControllerTest {
 				.password("qwer")
 				.email("qwer@qwer.com")
 				.build();
-		when(userService.getByCredentials("qwer", "qwer", encoder))
+		Mockito.when(userService.getByCredentials("qwer", "qwer", encoder))
 							.thenReturn(user);
-		when(tokenProvider.create(user))
+		Mockito.when(tokenProvider.create(user))
 							.thenReturn("token for this test");
 		
 		
@@ -117,8 +108,8 @@ public class UserControllerTest {
 				.andExpect(jsonPath("$.token").exists())
 				.andDo(print());
 		
-		verify(userService).getByCredentials("qwer", "qwer", encoder);
-		verify(tokenProvider).create(user);
+		Mockito.verify(userService).getByCredentials("qwer", "qwer", encoder);
+		Mockito.verify(tokenProvider).create(user);
 	}
 	
 	/*
@@ -155,7 +146,7 @@ public class UserControllerTest {
 							.build();
 		
 
-		when(userService.create(Mockito.any(User.class)))
+		Mockito.when(userService.create(Mockito.any(User.class)))
 						.thenReturn(regiUser);
 		
 		//
