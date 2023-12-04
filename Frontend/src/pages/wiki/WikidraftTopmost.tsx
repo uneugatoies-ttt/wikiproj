@@ -1,5 +1,7 @@
 import React from 'react';
 
+import CreateWikiDraft from './CreateWikiDraft';
+
 
 function WikidraftTopmost() {
     const [action, setAction] = React.useState('create-draft');
@@ -19,7 +21,7 @@ function WikidraftTopmost() {
     if (action === 'create-draft') {
         return (
             <div>
-                wikidraft
+                <CreateWikiDraft />
             </div>
         );    
     } else {

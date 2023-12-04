@@ -69,6 +69,9 @@ export default function Main() {
             width: '300px',
             height: '50px',
           }}
+          onClick={() => {
+            window.location.href = '/wikidraft'
+          }}
         >
           Start a New Wiki
         </Button>

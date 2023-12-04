@@ -44,7 +44,7 @@ export default function NavigationBar() {
 
                     <Grid item xs={6}></Grid>
 
-                    <Grid 
+                    <Grid
                         item 
                         style={{
                             minWidth: "130px"

@@ -6,7 +6,8 @@ import {
     Button,
     RadioGroup,
     Radio,
-    FormControlLabel
+    FormControlLabel,
+    Typography
 } from '@mui/material';
 import { createWikiDraft } from '../../components/services/ApiService';
 
@@ -32,10 +33,11 @@ function CreateWikiDraft() {
     }
 
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" style={{ marginTop: '8%' }}>
             <form noValidate onSubmit={formWikiAndSubmit}>
                 <Grid 
                     container 
+                    spacing={2}
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
@@ -49,7 +51,12 @@ function CreateWikiDraft() {
                         }}
                         xs={12}
                     >
-                        Create a Draft for a New Wiki 
+                        <Typography
+                            component="h1"
+                            variant="h5"
+                        >
+                            Create a New Wiki
+                        </Typography>
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
@@ -130,14 +137,3 @@ function CreateWikiDraft() {
 }
 
 export default CreateWikiDraft;
-
-/*
-                <Grid sx={{
-                    
-                }} 
-                
-                container spacing={2} justify="center" alignItems="center">
-                    <Grid item xs={12} align="center">
-
-                                        <Grid item xs={12} align="center">
-*/

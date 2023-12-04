@@ -23,17 +23,14 @@ function Login() {
     
     return (
         <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Typography component="h1" variant="h5">
-                        Login
-                    </Typography>
-                </Grid>
-            </Grid>
-
             <form noValidate onSubmit={handleSubmit}>
                 {" "}
                 <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Typography component="h1" variant="h5">
+                            Login
+                        </Typography>
+                    </Grid>
                     <Grid item xs={12}>
                         <TextField
                             variant="outlined"
