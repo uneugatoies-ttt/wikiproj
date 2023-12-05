@@ -408,6 +408,17 @@ public class ArticleService {
 			throw e;
 		}
 	}
+	
+	
+	// Sending messages to users involved in this wiki's editor group
+	private void sendingMessage(Wiki where, String message) {
+		try {
+			
+			
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 
 
 }
