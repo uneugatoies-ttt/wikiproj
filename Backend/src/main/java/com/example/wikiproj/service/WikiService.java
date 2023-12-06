@@ -70,7 +70,8 @@ public class WikiService {
 			NotificationMessage messageToProponent = NotificationMessage.builder()
 											.message("Your draft for a new wiki is approved by the admin.")
 											.recipient(userProponent)
-											.where(newWiki)
+											.wiki(newWiki)
+											.where("/wiki/" + newWiki.getWikiname().replace(' ', '-').toLowerCase() + "/home")
 											.build();
 			notificationMessageRepository.save(messageToProponent);
 		} catch (Exception e) {

@@ -38,7 +38,10 @@ public class NotificationMessage extends BaseEntity {
 	private User recipient;
 	
 	@ManyToOne
-	@JoinColumn(name = "where")
-	private Wiki where;
+	@JoinColumn(name = "wiki")
+	private Wiki wiki;
+	
+	// The path where the event that caused this message has happened.
+	private String where;
 
 }

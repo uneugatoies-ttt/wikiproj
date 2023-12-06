@@ -24,7 +24,7 @@ public class UserWikiStatusRepositoryTest {
 	private TestEntityManager entityManager;
 	
 	@Test
-	void findByWikiTest() {
+	void findAllByWikiTest() {
 		// Given
 		User user1 = User.builder()
 						.username("qwer")
@@ -69,7 +69,7 @@ public class UserWikiStatusRepositoryTest {
 		entityManager.persist(uws3);
 		
 		// When
-		List<UserWikiStatus> allStatusByWiki = userWikiStatusRepository.findByWiki(wiki);
+		List<UserWikiStatus> allStatusByWiki = userWikiStatusRepository.findAllByWiki(wiki);
 		
 		// Then
 		Assertions.assertThat(allStatusByWiki).contains(uws1, uws2, uws3);

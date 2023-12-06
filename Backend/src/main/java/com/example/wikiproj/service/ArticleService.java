@@ -3,19 +3,23 @@ package com.example.wikiproj.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.example.wikiproj.domain.Article;
 import com.example.wikiproj.domain.ArticleCategories;
 import com.example.wikiproj.domain.ArticleTags;
+import com.example.wikiproj.domain.NotificationMessage;
 import com.example.wikiproj.domain.RACCategories;
 import com.example.wikiproj.domain.RACTags;
 import com.example.wikiproj.domain.RevisionAndContent;
+import com.example.wikiproj.domain.User;
 import com.example.wikiproj.domain.Wiki;
 import com.example.wikiproj.dto.ArticleDTO;
 import com.example.wikiproj.dto.RevisionDTO;
 import com.example.wikiproj.persistence.CategoryRepository;
+import com.example.wikiproj.persistence.NotificationMessageRepository;
 import com.example.wikiproj.persistence.RACCategoriesRepository;
 import com.example.wikiproj.persistence.RACTagsRepository;
 import com.example.wikiproj.persistence.ArticleCategoriesRepository;
@@ -24,32 +28,10 @@ import com.example.wikiproj.persistence.ArticleTagsRepository;
 import com.example.wikiproj.persistence.TagRepository;
 import com.example.wikiproj.persistence.RevisionAndContentRepository;
 import com.example.wikiproj.persistence.UserRepository;
+import com.example.wikiproj.persistence.UserWikiStatusRepository;
 import com.example.wikiproj.persistence.WikiRepository;
 
 import lombok.AllArgsConstructor;
-
-/*	NOTE
-	-> I just don't know about this code. Is this the best 
-	that I can do to manage things? Excessively verbose and cumbersome;
-	which are exactly the states that I should avoid when writing code.
-	
-	But I'm not sure just yet. Maybe there is no way other than writing
-	hundreds of long lines. IWAAIL.
-	
-	-> Is there a way to use the stream API to convert lists and entities 
-	that are used within this class into something demanded now?
-	Maybe, if the relationship and other stuff were less convoluted then 
-	we could have done something like that; but the entities are not 
-	that simple.
-	
-	-> What about just using @AllArgsConstructor instead of writing every 
-	required dependency?
-
-*/
-
-/*	TODO
-
-*/
 
 @Service
 @AllArgsConstructor
@@ -65,7 +47,9 @@ public class ArticleService {
 	private ArticleTagsRepository articleTagsRepository;
 	private RACCategoriesRepository racCategoriesRepository;
 	private RACTagsRepository racTagsRepository;
-	
+	private UserWikiStatusRepository userWikiStatusRepository;
+	private NotificationMessageRepository notificationMessageRepository;
+
 	public ArticleDTO selectArticle(Long articleId) {
 		Article foundArticle = articleRepository.findById(articleId).get();
 		return formingArticleDTO(foundArticle);
@@ -114,6 +98,23 @@ public class ArticleService {
 			
 			newRevisionAndContent(insertedArticle, articleDTO.getVersionMemo(), "inserted");
 			
+			sendingMessage(
+					foundWiki, 
+					
+					"A new article " + 
+					insertedArticle.getTitle() + 
+					" is made in the following wiki: " + 
+					foundWiki.getWikiname(),
+					
+					"/wiki/" + 
+					foundWiki.getWikiname()
+							.replace(' ', '-')
+							.toLowerCase() +
+					"/" + 
+					insertedArticle
+						.getTitle().replace(' ', '-')
+				); 
+			
 			return formingArticleDTO(insertedArticle);
 		} catch (Exception e) {
 			throw e;
@@ -161,13 +162,23 @@ public class ArticleService {
 		try {
 			Optional<Article> foundArticle = articleRepository.findById(articleId);
 			if (foundArticle.isEmpty()) return null;
-			articleRepository.delete(foundArticle.get());
+			Article fa = foundArticle.get();
+			articleRepository.delete(fa);
+
+			sendingMessage(
+					fa.getWiki(), 
+					"The article " + 
+							fa.getTitle() + 
+					" is deleted from the following wiki: " +
+					fa.getWiki().getWikiname(),
+					"/wiki/" + fa.getWiki().getWikiname()
+				);
+			
 			return "Article Successfully Deleted.";
 		} catch (Exception e) {
 			throw e;
 		}
 	}
-	
 	
 	// revision and content handling
 	private void newRevisionAndContent(Article article, String versionMemo, String versionType) {
@@ -270,10 +281,6 @@ public class ArticleService {
 			throw e;
 		}
 	}
-
-	
-	
-	
 	
 	// ArticleDTO from the Article entity
 	private ArticleDTO formingArticleDTO(Article article) {
@@ -292,9 +299,6 @@ public class ArticleService {
 			throw e;
 		}
 	}
-	
-	
-	
 	
 	// listing methods
 	private List<ArticleCategories> listingArticleCategories(Article ent, ArticleDTO dto) {
@@ -334,7 +338,6 @@ public class ArticleService {
 			throw e;
 		}
 	}
-	
 	
 	private List<String> listingStringCategories(Article ent) {
 		try {
@@ -409,16 +412,28 @@ public class ArticleService {
 		}
 	}
 	
-	
 	// Sending messages to users involved in this wiki's editor group
-	private void sendingMessage(Wiki where, String message) {
+	private void sendingMessage(Wiki wiki, String message, String where) {
 		try {
+			List<User> editors = userWikiStatusRepository
+									.findAllByWiki(wiki)
+									.stream()
+									.map(status -> status.getUser())
+									.collect(Collectors.toList());
 			
+			NotificationMessage nm = NotificationMessage.builder()
+												.message(message)
+												.wiki(wiki)
+												.where(where)
+												.build();
 			
+			for (User u : editors) {
+				nm.setRecipient(u);
+				notificationMessageRepository.save(nm);
+			}
 		} catch (Exception e) {
 			throw e;
 		}
 	}
-
 
 }

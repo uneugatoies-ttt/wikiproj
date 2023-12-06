@@ -9,6 +9,6 @@ import com.example.wikiproj.domain.Wiki;
 
 public interface UserWikiStatusRepository extends JpaRepository<UserWikiStatus, Long> {
 	
-	List<UserWikiStatus> findByWiki(Wiki wiki);
+	List<UserWikiStatus> findAllByWiki(Wiki wiki);
 
 }
