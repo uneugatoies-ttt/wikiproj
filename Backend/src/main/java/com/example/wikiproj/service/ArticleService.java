@@ -60,7 +60,7 @@ public class ArticleService {
 			String normalizedWikiname = wikiname.trim().toLowerCase().replace('-', ' ');
 			String normalizedTitle = title.trim().toLowerCase().replace('-', ' ');
 			
-			Wiki foundWiki = wikiRepository.findByWikiname(normalizedWikiname);
+			Wiki foundWiki = wikiRepository.findByWikinameIgnoreCase(normalizedWikiname);
 			
 			Article foundArticle = 
 				articleRepository
@@ -80,7 +80,10 @@ public class ArticleService {
 	
 	public ArticleDTO insertArticle(ArticleDTO articleDTO) {
 		try {
-			Wiki foundWiki = wikiRepository.findByWikiname(articleDTO.getWikiname());
+			String normalizedWikiname = articleDTO.getWikiname().trim().toLowerCase().replace('-', ' ');
+			
+			Wiki foundWiki = wikiRepository.findByWikinameIgnoreCase(normalizedWikiname);
+			
 			if (foundWiki == null)
 				 throw new RuntimeException("Wiki Does Not Exist");
 			
@@ -133,7 +136,8 @@ public class ArticleService {
 
 	public ArticleDTO updateArticle(ArticleDTO articleDTO) {
 		try {
-			Wiki foundWiki = wikiRepository.findByWikiname(articleDTO.getWikiname());
+			String normalizedWikiname = articleDTO.getWikiname().trim().toLowerCase().replace('-', ' ');
+			Wiki foundWiki = wikiRepository.findByWikinameIgnoreCase(normalizedWikiname);
 			if (foundWiki == null)
 				throw new RuntimeException("Wiki Does Not Exist");
 			

@@ -64,6 +64,10 @@ public class ArticleController {
 			if (articleDTO.getContent() == null) 
 				throw new RuntimeException("Invalid Insertion Attempt: content is null");
 			
+			System.out.println("\n\nIs this called twice?\n\n");
+			
+			System.out.println('\n' + articleDTO.getWikiname() + '\n');
+			
 			if (articleDTO.getCategories() == null)
 				articleDTO.setCategories(new ArrayList<>());
 			if (articleDTO.getTags() == null)

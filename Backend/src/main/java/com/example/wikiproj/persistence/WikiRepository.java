@@ -6,6 +6,6 @@ import com.example.wikiproj.domain.Wiki;
 
 public interface WikiRepository extends JpaRepository<Wiki, Long> {
 
-	Wiki findByWikiname(String wikiname);
+	Wiki findByWikinameIgnoreCase(String wikiname);
 
 }

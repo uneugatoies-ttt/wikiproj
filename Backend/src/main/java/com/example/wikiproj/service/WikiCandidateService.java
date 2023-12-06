@@ -40,7 +40,7 @@ public class WikiCandidateService {
 			WikiClass wikiClass = wikiClassRepository.findByClassName(wikiCandidateDTO.getWikiClassName());
 			if (wikiClass == null)
 				throw new RuntimeException("Invalid Wiki Class");
-			Wiki existQ = wikiRepository.findByWikiname(wikiCandidateDTO.getWikiname());
+			Wiki existQ = wikiRepository.findByWikinameIgnoreCase(wikiCandidateDTO.getWikiname().trim().toLowerCase().replace('-', ' '));
 			if (existQ != null)
 				throw new RuntimeException("Wiki Name Already Exists");
 			User proponent = userRepository.findByUsername(wikiCandidateDTO.getProponent());
@@ -99,10 +99,12 @@ public class WikiCandidateService {
 		}
 	}
 	
+	// Search whether the wiki name is present in the table 'wiki'.
+	// If it is, then delete the corresponding wiki draft.
 	public void draftValidate(List<WikiCandidate> draftList) {
 		try {
 			for (WikiCandidate dr : draftList)
-				if (wikiRepository.findByWikiname(dr.getWikiname()) != null)
+				if (wikiRepository.findByWikinameIgnoreCase(dr.getWikiname()) != null)
 					deleteWikiDraft(dr.getWikiCandidateId());
 		} catch (Exception e) {
 			throw e;

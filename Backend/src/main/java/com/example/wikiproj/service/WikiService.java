@@ -31,7 +31,7 @@ public class WikiService {
 		WikiClass wikiClass =  wikiClassRepository.findByClassName(wikiDTO.getWikiClassName());
 		if (wikiClass == null)
 			throw new RuntimeException("Invalid Wiki Class");
-		Wiki existQ = wikiRepository.findByWikiname(wikiDTO.getWikiname());
+		Wiki existQ = wikiRepository.findByWikinameIgnoreCase(wikiDTO.getWikiname().trim().toLowerCase().replace('-', ' '));
 		if (existQ != null)
 			throw new RuntimeException("Wiki Name Already Exists");
 		

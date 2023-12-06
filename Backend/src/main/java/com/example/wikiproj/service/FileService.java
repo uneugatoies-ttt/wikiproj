@@ -30,7 +30,7 @@ public class FileService {
 	public FileDTO insertNewFile(FileDTO fileDTO, String filePath) {
 		try {
 			User uploader = userRepository.findByUsername(fileDTO.getUploader());
-			Wiki usedInThisWiki = wikiRepository.findByWikiname(fileDTO.getUsedInThisWiki().replace('-', ' '));
+			Wiki usedInThisWiki = wikiRepository.findByWikinameIgnoreCase(fileDTO.getUsedInThisWiki().trim().toLowerCase().replace('-', ' '));
 			
 			File fileEntity = File.builder()
 								.fileName(fileDTO.getFileName())
@@ -60,7 +60,7 @@ public class FileService {
 
 	public boolean isFileNamePresent(String fileName, String wikiName) {
 		try {
-			Wiki usedInThisWiki = wikiRepository.findByWikiname(wikiName.replace('-', ' '));
+			Wiki usedInThisWiki = wikiRepository.findByWikinameIgnoreCase(wikiName.trim().toLowerCase().replace('-', ' '));
 			boolean presence = fileRepository.existsByFileNameAndUsedInThisWiki(fileName, usedInThisWiki);
 			return presence;
 		} catch (Exception e) {

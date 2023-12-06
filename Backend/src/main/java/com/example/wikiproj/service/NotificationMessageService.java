@@ -28,6 +28,7 @@ public class NotificationMessageService {
 			List<NotificationMessageDTO> allMessagesDTO =
 						allMessages.stream()
 									.map(m -> NotificationMessageDTO.builder()
+														.id(m.getId())
 														.message(m.getMessage())
 														.wiki(m.getWiki().getWikiname())
 														.where(m.getWhere())
