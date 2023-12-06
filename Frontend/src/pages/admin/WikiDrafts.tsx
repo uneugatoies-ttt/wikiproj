@@ -25,7 +25,6 @@ function WikiDrafts() {
             throw error;
         }
     }
-            
     
     React.useEffect(() => {
         if (reload) {

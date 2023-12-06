@@ -18,17 +18,22 @@ function CreateWikiDraft() {
         setSelectedOption(event.target.value);
     }
 
-    const formWikiAndSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const formWikiAndSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const data = new FormData(event.currentTarget);
         const wikiname = data.get("wikiname")?.toString();
-        const description = data.get("description")?.toString();
-        const proponent = localStorage.getItem("USERNAME")?.toString();
-        const wikiClassName = data.get("wikiClassName")?.toString();
 
-        if (wikiname && description && proponent && wikiClassName) {
-            createWikiDraft({ wikiname: wikiname, description: description, proponent: proponent, wikiClassName: wikiClassName });
+        if (wikiname?.includes('-')) {
+            console.log('Wiki name cannot include \"-\"');
+        } else {
+            const description = data.get("description")?.toString();
+            const proponent = localStorage.getItem("USERNAME")?.toString();
+            const wikiClassName = data.get("wikiClassName")?.toString();
+
+            if (wikiname && description && proponent && wikiClassName) {
+                createWikiDraft({ wikiname: wikiname, description: description, proponent: proponent, wikiClassName: wikiClassName });
+            }
         }
     }
 

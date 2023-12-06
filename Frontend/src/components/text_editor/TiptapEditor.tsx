@@ -29,12 +29,12 @@ import './tiptapStyles.scss';
     > as HTML: the data must be given in the form of string.
     > as JSON: the data should be raw JSON data.
 */
-
+/*
 const CustomImage = Image.extend({
   addNodeView() {
     return ReactNodeViewRenderer(ImageView);
   },
-});
+});*/
 
 const CustomLink = Link.extend({
 
@@ -46,11 +46,10 @@ interface TiptapEditorProps {
   createNewArticle: (contents: string) => void;
 }
 
-const TiptapEditor: React.FC<TiptapEditorProps> = ({
-  content,
-  creationFlag,
-  createNewArticle
-}) => {
+const TiptapEditor: React.FC<TiptapEditorProps> = ({ content, creationFlag, createNewArticle }) => {
+
+
+  
   const extensions = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
     TextStyle.configure({  }),
@@ -64,7 +63,7 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
         keepAttributes: false,
       },
     }),
-    CustomImage,
+    //CustomImage,
     CustomLink,
   ];
 
@@ -77,6 +76,10 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
     content: content,
   })
 
+  if (!editor) {
+    return null;
+  }
+
   return (
     <Container component="main" sx={{
         marginTop: "3%",
@@ -85,8 +88,6 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
     >
 
       <MenuBar
-        creationFlag={creationFlag}
-        createNewArticle={createNewArticle} 
         editor={editor}
       />
 

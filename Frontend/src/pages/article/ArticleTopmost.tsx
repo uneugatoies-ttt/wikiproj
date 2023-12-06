@@ -10,7 +10,6 @@ import { useParams } from 'react-router-dom';
     EditArticles and Articles.
 */
 
-
 function ArticleTopmost() {
     const [action, setAction] = React.useState('display');
     const [articleData, setArticleData] = React.useState<string>('');

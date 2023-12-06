@@ -41,24 +41,14 @@ import ChooseLink from './link/ChooseLink';
 */
 
 
-const MenuBar = ({ 
-  creationFlag, createNewArticle, editor
-}: {
-  creationFlag: boolean,
-  createNewArticle: (contents: string) => void,
-  editor: Editor | null, 
-}) => {
-  const [openChooseImage, setOpenChooseImage] = React.useState(false);
+const MenuBar = ({ editor }: { editor: Editor | null, }) => {
+  //const [openChooseImage, setOpenChooseImage] = React.useState(false);
   const [openChooseLink, setOpenChooseLink] = React.useState(false);
 
   if (!editor) {
     return null;
   }
 
-  if (creationFlag) {
-    console.log(editor.getJSON());
-    // createNewArticle(JSON.stringify(editor.getJSON()));
-  }
 
   return (
     <div className="buttonswrapping">
@@ -183,6 +173,7 @@ const MenuBar = ({
             </FormatQuote>
           </ToggleButton>
 
+            {/*
           <ToggleButton
             onClick={() => setOpenChooseImage(true)}
             selected={editor.isActive("image-renderer")}
@@ -196,7 +187,7 @@ const MenuBar = ({
             open={openChooseImage}
             handleClose={() => setOpenChooseImage(false)}
             editor={editor}
-          />
+          />*/}
 
           <ToggleButton
             onClick={() => setOpenChooseLink(true)}

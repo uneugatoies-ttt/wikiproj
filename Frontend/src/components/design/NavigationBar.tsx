@@ -2,11 +2,13 @@ import { Button } from '@mui/material';
 import { AppBar, Grid, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 import { signout } from '../services/ApiService';
+import UserNotificationDropdown from './UserNotificationDropdown';
 
 export default function NavigationBar() {
     const [loggedIn, setLoggedIn] = React.useState((
             localStorage.getItem('ACCESS_TOKEN') && localStorage.getItem('USERNAME')
         ) ? true : false);
+    const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
     
     const login = () => {
         window.location.href = '/login';
@@ -50,9 +52,15 @@ export default function NavigationBar() {
                             minWidth: "130px"
                         }}
                     >
+                        {loggedIn? (
+                            <UserNotificationDropdown/>
+                        ) : (
+                            null
+                        )}
+
                         <Button
                             style={{
-                                backgroundColor: "#7289FF",
+                                backgroundColor: "#3A86EF",
                                 color: "inherit",
                                 fontSize: "13px",
                                 

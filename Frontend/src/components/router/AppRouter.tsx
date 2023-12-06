@@ -47,17 +47,18 @@ function AppRouter() {
                         path="/adm"
                         element={<AdminTopmost />}
                     />
+
     
-                    <Route
-                        path="/wiki/:wikiname/create-new"
-                        element={<CreateArticle /> }
-                    />
-                    
                     <Route 
                         path="/wiki/:wikiname/:arti"
                         element={<ArticleTopmost />}
                     />
-    
+
+                    <Route
+                        path="/wiki/:wikiname/create-new"
+                        element={<CreateArticle /> }
+                    />
+                        
                     <Route 
                         path="/wiki/:wikiname/manage"
                         element={<ManageTopmost />}

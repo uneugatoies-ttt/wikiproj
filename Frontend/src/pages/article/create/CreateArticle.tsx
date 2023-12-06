@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 import { insertArticle, ArticleDTO } from '../../../components/services/ApiService';
 import { Formik, Field, Form, ErrorMessage, useField, FieldAttributes, useFormik } from 'formik';
 import * as Yup from 'yup';
+import { Editor } from '@tiptap/react';
 
 /*  NOTE/TODO
     -> Currently I'm giving a function as one of props and 
@@ -15,17 +16,12 @@ import * as Yup from 'yup';
 
 const CreateArticlePractice = () => {
     const [creationFlag, setCreationFlag] = React.useState(false);
-
-    React.useEffect(() => {
-      setCreationFlag(false);
-    }, [creationFlag]);
+    const [editor, setEditor] = React.useState<Editor | null>(null);
 
     // 'window.location.pathname' will return something like '/wiki/wiki-example/create-new'.
-    const wikiname = window.location.pathname.split('/')[1];
+    const wikiname = window.location.pathname.split('/')[2];
     const lastEditor = localStorage.getItem("USERNAME");
     
-    // We can certainly manage contents other than images within the article
-    // by utilizing this function; but how about the images?
     const createNewArticle = (contents: string) => {
         const title = 'example article title';
         const contentString = contents;
@@ -35,7 +31,9 @@ const CreateArticlePractice = () => {
             return;
         }
 
-        console.log(contentString);
+        //console.log(contentString);
+
+        console.log(wikiname);
         
         insertArticle({
             wikiname: wikiname,
@@ -46,14 +44,8 @@ const CreateArticlePractice = () => {
         });
     }
 
-    const insertNewImage = () => {
-
-    }
-
     const content = '';
 
-
-  
     return (
         <Formik 
             initialValues={{ 
@@ -67,7 +59,7 @@ const CreateArticlePractice = () => {
                 title: Yup.string().max(50, 'Must be 50 characters or less').required('Required'),
             })}
             onSubmit={( values, { setSubmitting }) => {
-                setCreationFlag(true);
+                
                 setSubmitting(false);
             }}
 

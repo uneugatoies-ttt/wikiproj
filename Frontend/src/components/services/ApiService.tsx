@@ -291,3 +291,24 @@ export async function isFileNamePresent(fileName: string, wikiName: string): Pro
     }
 }
 // FILE HANDLING RELATED ENDS
+
+// NOTIFICATION MESSAGE RELATED BEGINS
+export interface NotificationMessageDTO {
+    message: string,
+    recipient: string,
+    where: string,
+    id?: number,
+    wiki?: string,
+}
+
+export async function getAllMessagesForThisUser() {
+    try {
+        const userName = localStorage.getItem("USERNAME");
+        const result = await call('/noti/user-messages?username=' + userName, 'GET', null);
+        return result;
+    } catch (error) {
+        console.error('Error with using getAllMessagesForThisUser(): ', error);
+        throw error;
+    }
+}
+// NOTIFICATION MESSAGE RELATED ENDS
