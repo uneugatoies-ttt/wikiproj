@@ -106,9 +106,9 @@ public class ArticleService {
 			sendingMessage(
 					foundWiki, 
 					
-					"A new article " + 
+					"A new article \"" + 
 					insertedArticle.getTitle() + 
-					" is made in the following wiki: " + 
+					"\" is made in the following wiki: " + 
 					foundWiki.getWikiname(),
 					"/wiki/" + 
 					foundWiki.getWikiname()
@@ -171,9 +171,9 @@ public class ArticleService {
 
 			sendingMessage(
 					fa.getWiki(), 
-					"The article " + 
+					"The article \"" + 
 							fa.getTitle() + 
-					" is deleted from the following wiki: " +
+					"\" is deleted from the following wiki: " +
 					fa.getWiki().getWikiname(),
 					"/wiki/" + fa.getWiki().getWikiname()
 				);
