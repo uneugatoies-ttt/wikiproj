@@ -57,8 +57,10 @@ public class ArticleService {
 	
 	public ArticleDTO selectArticleByWikinameAndTitle(String wikiname, String title) {
 		try {
-			String normalizedWikiname = wikiname.trim().toLowerCase().replace('-', ' ');
-			String normalizedTitle = title.trim().toLowerCase().replace('-', ' ');
+			// Although the wikiname will be searched with ignored case,
+			// the title will be searched with exact case.
+			String normalizedWikiname = wikiname.trim().replace('-', ' ');
+			String normalizedTitle = title.trim().replace('-', ' ');
 			
 			Wiki foundWiki = wikiRepository.findByWikinameIgnoreCase(normalizedWikiname);
 			
@@ -80,7 +82,7 @@ public class ArticleService {
 	
 	public ArticleDTO insertArticle(ArticleDTO articleDTO) {
 		try {
-			String normalizedWikiname = articleDTO.getWikiname().trim().toLowerCase().replace('-', ' ');
+			String normalizedWikiname = articleDTO.getWikiname().trim().replace('-', ' ');
 			
 			Wiki foundWiki = wikiRepository.findByWikinameIgnoreCase(normalizedWikiname);
 			
@@ -108,11 +110,9 @@ public class ArticleService {
 					insertedArticle.getTitle() + 
 					" is made in the following wiki: " + 
 					foundWiki.getWikiname(),
-					
 					"/wiki/" + 
 					foundWiki.getWikiname()
-							.replace(' ', '-')
-							.toLowerCase() +
+							.replace(' ', '-') +
 					"/" + 
 					insertedArticle
 						.getTitle().replace(' ', '-')
@@ -136,7 +136,7 @@ public class ArticleService {
 
 	public ArticleDTO updateArticle(ArticleDTO articleDTO) {
 		try {
-			String normalizedWikiname = articleDTO.getWikiname().trim().toLowerCase().replace('-', ' ');
+			String normalizedWikiname = articleDTO.getWikiname().trim().replace('-', ' ');
 			Wiki foundWiki = wikiRepository.findByWikinameIgnoreCase(normalizedWikiname);
 			if (foundWiki == null)
 				throw new RuntimeException("Wiki Does Not Exist");
