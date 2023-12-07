@@ -48,7 +48,7 @@ const MenuBar = ({ editor }: { editor: Editor | null, }) => {
   if (!editor) {
     return null;
   }
-
+  
 
   return (
     <div className="buttonswrapping">

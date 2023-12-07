@@ -194,7 +194,7 @@ export interface ArticleDTO {
     title: string,
     content: string,
     articleId?: number,
-    lastEditor?: string,
+    lastEditor?: string | null,
     categories?: string[],
     tags?: string[],
     versionMemo?: string,
@@ -218,7 +218,7 @@ export async function insertArticle(articleDTO: ArticleDTO) {
         const result = await call('/article', 'POST', articleDTO);
         
         if (result.articleId) {
-            console.log(result);
+            return result;
         }
     } catch (error) {
         console.error('Error with using insertArticle():', error);

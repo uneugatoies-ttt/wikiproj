@@ -42,14 +42,17 @@ const CustomLink = Link.extend({
 
 interface TiptapEditorProps {
   content: string;
-  creationFlag: boolean;
-  createNewArticle: (contents: string) => void;
+  flag: boolean;
+  calledWhenFlagIsTrue: (contents: string) => void;
 }
 
-const TiptapEditor: React.FC<TiptapEditorProps> = ({ content, creationFlag, createNewArticle }) => {
+const TiptapEditor: React.FC<TiptapEditorProps> = ({ content, flag, calledWhenFlagIsTrue }) => {
+  React.useEffect(() => {
+    if (flag) {
+      calledWhenFlagIsTrue(JSON.stringify(editor?.getJSON()));
+    }
+  }, [flag]);
 
-
-  
   const extensions = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
     TextStyle.configure({  }),

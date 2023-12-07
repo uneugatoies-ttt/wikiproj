@@ -11,8 +11,8 @@ function EditArticles(props: { articleData: string }) {
     return (
         <TiptapEditor 
             content={data} 
-            creationFlag={false}
-            createNewArticle={() => {}} 
+            flag={false}
+            calledWhenFlagIsTrue={(c: string) => {}} 
         />
     );
 }

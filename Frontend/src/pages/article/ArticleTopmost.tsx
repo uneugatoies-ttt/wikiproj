@@ -28,7 +28,7 @@ function ArticleTopmost() {
             selectArticleByWikinameAndTitle(wikiname, arti)
                 // @ts-ignore
                 .then((result: ArticleDTO) => {
-                    setArticleData(result.content);
+                    setArticleData(JSON.parse(result.content));
                     setLoading(false);
                 });
         }
