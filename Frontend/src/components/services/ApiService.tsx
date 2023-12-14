@@ -304,7 +304,18 @@ export interface NotificationMessageDTO {
 export async function getAllMessagesForThisUser() {
     try {
         const userName = localStorage.getItem("USERNAME");
-        const result = await call('/noti/user-messages?username=' + userName, 'GET', null);
+        const result = await call('/noti?username=' + userName, 'GET', null);
+        return result;
+    } catch (error) {
+        console.error('Error with using getAllMessagesForThisUser(): ', error);
+        throw error;
+    }
+}
+
+export async function clearAllMessagesForThisUser() {
+    try {
+        const userName = localStorage.getItem("USERNAME");
+        const result = await call('/noti?username=' + userName, 'DELETE', null);
         return result;
     } catch (error) {
         console.error('Error with using getAllMessagesForThisUser(): ', error);

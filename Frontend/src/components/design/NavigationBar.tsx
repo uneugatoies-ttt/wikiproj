@@ -53,7 +53,7 @@ export default function NavigationBar() {
                         }}
                     >
                         {loggedIn? (
-                            <UserNotificationDropdown/>
+                            <UserNotificationDropdown />
                         ) : (
                             null
                         )}
@@ -63,7 +63,6 @@ export default function NavigationBar() {
                                 backgroundColor: "#3A86EF",
                                 color: "inherit",
                                 fontSize: "13px",
-                                
                             }}
                             onClick={loggedIn ? logout : login}
                         >

@@ -26,16 +26,16 @@ const CreateArticle = () => {
         const contentString = content;
         const versionMemo = 'Creating a new article';
 
-        if (!lastEditor || !versionMemo) {
+        if (!lastEditor || !versionMemo || !title || title === '' || !contentString || contentString === '') {
             return;
         }
 
-        //console.log(title);
+        console.log(title);
         console.log(contentString);
         //console.log(wikiname);
         
         
-        /*insertArticle({
+        insertArticle({
             wikiname: wikiname,
             title: title,
             content: contentString,
@@ -43,8 +43,10 @@ const CreateArticle = () => {
             versionMemo: versionMemo,
         })
             .then((r) => {
-                window.location.href = '/wiki/' + wikiname.replace(' ', '-') + '/' + title;
-            });*/
+                const encodedWikiname = encodeURIComponent(wikiname);
+                const encodedTitle = encodeURIComponent(title).replace(/%20/g, '-');
+                window.location.href = `/wiki/${encodedWikiname}/${encodedTitle}`;
+            });
     }
 
     const content = '';
