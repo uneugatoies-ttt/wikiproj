@@ -10,5 +10,7 @@ import com.example.wikiproj.domain.User;
 public interface NotificationMessageRepository extends JpaRepository<NotificationMessage, Long> {
 	
 	List<NotificationMessage> findAllByRecipient(User recipient);
+	
+	void deleteAllByRecipient(User recipient);
 
 }

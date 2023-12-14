@@ -1,6 +1,8 @@
 package com.example.wikiproj.service;
 
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.example.wikiproj.domain.NotificationMessage;
@@ -27,6 +29,7 @@ public class WikiService {
 	private UserRepository userRepository;
 	private NotificationMessageRepository notificationMessageRepository;
 
+	@Transactional
 	public WikiDTO createWiki(WikiDTO wikiDTO, String proponent) throws Exception {
 		WikiClass wikiClass =  wikiClassRepository.findByClassName(wikiDTO.getWikiClassName());
 		if (wikiClass == null)
@@ -56,6 +59,7 @@ public class WikiService {
 		return resultDTO;
 	}
 	
+	@Transactional
 	private void setWikiProponent(String proponent, Wiki newWiki) {
 		try {
 			User userProponent = userRepository.findByUsername(proponent);

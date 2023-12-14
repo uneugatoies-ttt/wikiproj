@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.example.wikiproj.domain.Article;
@@ -55,6 +57,7 @@ public class ArticleService {
 		return formingArticleDTO(foundArticle);
 	}
 	
+	@Transactional
 	public ArticleDTO selectArticleByWikinameAndTitle(String wikiname, String title) {
 		try {
 			// Although the wikiname will be searched with ignored case,
@@ -80,6 +83,7 @@ public class ArticleService {
 		}
 	}
 	
+	@Transactional
 	public ArticleDTO insertArticle(ArticleDTO articleDTO) {
 		try {
 			String normalizedWikiname = articleDTO.getWikiname().trim().replace('-', ' ');
@@ -124,6 +128,7 @@ public class ArticleService {
 		}
 	}
 	
+	@Transactional
 	public Article settingAuthorsCategoriesTagsAfterInsertion(Article insertedArticle, ArticleDTO articleDTO) {
 		try {
 			insertedArticle.setArticleCategories(listingArticleCategories(insertedArticle, articleDTO));
@@ -133,7 +138,8 @@ public class ArticleService {
 			throw e;
 		}
 	}
-
+	
+	@Transactional
 	public ArticleDTO updateArticle(ArticleDTO articleDTO) {
 		try {
 			String normalizedWikiname = articleDTO.getWikiname().trim().replace('-', ' ');
@@ -183,7 +189,8 @@ public class ArticleService {
 			throw e;
 		}
 	}
-	
+
+	@Transactional
 	// revision and content handling
 	private void newRevisionAndContent(Article article, String versionMemo, String versionType) {
 		try {
@@ -209,7 +216,7 @@ public class ArticleService {
 		}
 	}
 	
-
+	@Transactional
 	public ArticleDTO revertArticle(RevisionDTO revisionDTO) {
 		try {
 			Article existingArticle = articleRepository.findById(revisionDTO.getArticleId()).get();
@@ -304,6 +311,7 @@ public class ArticleService {
 		}
 	}
 	
+	@Transactional
 	// listing methods
 	private List<ArticleCategories> listingArticleCategories(Article ent, ArticleDTO dto) {
 		try {
@@ -324,6 +332,7 @@ public class ArticleService {
 		}
 	}
 	
+	@Transactional
 	private List<ArticleTags> listingArticleTags(Article ent, ArticleDTO dto) {
 		try {
 			if (dto.getTags() == null || dto.getTags().isEmpty())
@@ -373,6 +382,7 @@ public class ArticleService {
 		}
 	}
 	
+	@Transactional
 	private List<RACCategories> listingRACCategories(RevisionAndContent rac, List<ArticleCategories> cates) {
 		try {
 			if (cates == null || cates.isEmpty())
@@ -395,6 +405,7 @@ public class ArticleService {
 		}
 	}
 
+	@Transactional
 	private List<RACTags> listingRACTags(RevisionAndContent rac, List<ArticleTags> tags) {
 		try {
 			if (tags == null || tags.isEmpty())
@@ -417,6 +428,7 @@ public class ArticleService {
 	}
 	
 	// Sending messages to users involved in this wiki's editor group
+	@Transactional	
 	private void sendingMessage(Wiki wiki, String message, String where) {
 		try {
 			List<User> editors = userWikiStatusRepository

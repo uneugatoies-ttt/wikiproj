@@ -1,5 +1,7 @@
 package com.example.wikiproj.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,7 @@ public class UserService {
 		}
 	}
 	
+	@Transactional
 	public User create(final User userEntity) {
 		try {
 			if (userEntity == null || userEntity.getUsername() == null)

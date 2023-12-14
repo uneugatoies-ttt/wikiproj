@@ -3,6 +3,8 @@ package com.example.wikiproj.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.example.wikiproj.domain.User;
@@ -35,6 +37,7 @@ public class WikiCandidateService {
 		this.userRepository = userRepository;
 	}
 
+	@Transactional
 	public WikiCandidateDTO createWikiCandidate(WikiCandidateDTO wikiCandidateDTO) {
 		try {
 			WikiClass wikiClass = wikiClassRepository.findByClassName(wikiCandidateDTO.getWikiClassName());
@@ -91,6 +94,7 @@ public class WikiCandidateService {
 		}
 	}
 
+	@Transactional
 	public void deleteWikiDraft(Long id) {
 		try {
 			wikiCandidateRepository.deleteById(id);

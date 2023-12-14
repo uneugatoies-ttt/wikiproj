@@ -1,5 +1,7 @@
 package com.example.wikiproj.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.example.wikiproj.domain.File;
@@ -27,6 +29,7 @@ public class FileService {
 		this.wikiRepository = wikiRepository;
 	}
 
+	@Transactional
 	public FileDTO insertNewFile(FileDTO fileDTO, String filePath) {
 		try {
 			User uploader = userRepository.findByUsername(fileDTO.getUploader());
